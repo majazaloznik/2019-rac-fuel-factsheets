@@ -1,0 +1,113 @@
+---
+title: "Journal: RAC Fuel Factsheet---Outbound"
+output:
+  pdf_document: default
+---
+# Wednesday 28.8.2019
+
+1. Setup project and repo
+2. Initialise packrat with options
+  * vcs.ignore.src: TRUE
+  * auto.snapshot:TRUE **todo: check this works!**
+  * initialisation successful but Warning messages:
+```
+1: In untar(src, exdir = target, compressed = "gzip") :
+  argument 'compressed' is ignored for the internal method
+2: In untar(src, compressed = "gzip", list = TRUE) :
+  argument 'compressed' is ignored for the internal method
+```
+3. Started getting an odd error on saving: "no such file or directory" which just happened constantly, not even when saving and usually crashed R. Restart of the machine seemed to help, since the suggestions [here](https://github.com/rstudio/rstudio/issues/2037) didn't seemm to. 
+This is what my makefile looks like graphically at the minute:
+
+4. Install knitr and dependencies to be able to compile Rmds. 
+5. CHeck packrat.lock, which seems to have not changed, meaning automatic snapshot doesn't work?
+6. Try manual snapshot, but get error
+```
+Error: Unable to retrieve package records for the following packages:
+- 'base64enc', 'digest', 'htmltools', 'jsonlite', 'rmarkdown', 'tinytex'```
+```
+7. Ah, OK, seems these were needed by knitr, so as soon as i ran knit on this journal the packages were installed. 
+
+8. Run `packrat::snapshot()` which seems to work fine. all good. Although there is no automatic snapshots it seems. 
+
+9. Clean up makefile. I think I'll try building this whole project with make to keep it more managable and easier for RAC to handle as well. **todo: potential portability issue: the command `dot` used in creating the makefile graphic, which is from graphviz. so that would need to be installed. Run "dot -V" from the command prompt to check. but this can be removed from the makefile once porting, since it won't change later anyway**
+
+10. Back to packrat. Seems that I am unnecessarily using the `infer.dependencies=TRUE` default setting, which checks for the versions of all dependent packages. But is it bad? [This guy](https://www.joelnitta.com/post/docker-and-packrat/) seems to think so. **todo: should i migrate to renv instead? seems packrat is out..**
+
+11. In code/sandbox, walk through the crop.R script. This is pretty straightforward, crops predetermined rectangles from the factsheet and adds a source/date annotation. 
+
+12. Walk through main outbound script:
+* RDCOMClient package is used to send emails from Outlook in Windows. Won't be able to test that. **todo: Unless I set up a virtual machine.. **
+
+# Thursday 29.8.2019
+
+1. walk through outbound script:
+* `gs_url` works fine, no authentication required. registered googlesheet?
+* `gs_read` downloads individual worksheets. 
+* Missing column names warning messages! **can be fixed in googlesheet**
+* `googlesheets` lifecycle is down as **retired** - time to move to googlesheets4? but not on CRAN yet. 
+* ok, so the unit testing looks like it could be cleaned up using `tinytest`? **todo: read up on other options**
+
+2. `tinytest` or `testthar`
+* doesn't stop the script but simply saves the errors. 
+* unit testing outside package envirnoments e.g. [here](https://towardsdatascience.com/unit-testing-in-r-68ab9cc8d211)
+
+3. Logical testing
+  + includes manually input numbers for max price, duty rates.. **what if these change?**
+
+4. error/typo : (?/barrel) instead of (£/barrel)
+
+5. sheet data testing: all or nothing, doesn't specify error. 
+
+6. saving to excel (some weird date calculations haha)
+
+Outline of script:
+1. download and save data from googlesheet. 
+2. functions
+3. checking data
+* pump price data: 
+  + remove any non-numeric values
+  + check all the cells have legal values
+  + STOP if not. 
+  + logical tests
+* etc. all the worksheets
+4. creating custom data frames
+5. write to xls file 
+
+7. email Ivo:
+
+> 
+The deliverable is a script/repo/package that does the following:
+1. downloads the data (this is already OK)
+2. does unit testing with reporting e.g. using testthat or tidytest (this is to be completely rewritten)
+3. does necessary calculations (this is already OK)
+4. create a list of edits (this is to be completely rewritten)
+5. sends them to the designers and archives them (this is already OK)
+
+> So it's point 4 that I'm just not completely clear on. You want the edits to be passed on in a more user friendly format, not the current excel spreadsheet?  This is what you mean by "email text and attached tables of data etc"? And do you want to use the numbering of the elements you sent in the attached pdf? The idea being presumably to make Nick's life easier? 
+
+8. OK, what the heck, try a new repo with `renv` instead of `packrat`... 
+
+9. Still not clear on packrat - is the infer.dependencies setting really necessary? it means it fetches sources for dozens of packages in addition to the ones I use. I think. 
+
+10. OK, first i'll set ignored directories in packrat options to ignore most everything. 
+
+# Friday 30.8.2019
+
+1. OK, there was a bug in renv, solved wiht [this issue](https://github.com/rstudio/renv/issues/174) but now it seems to work. 
+
+2. restart repo and reinitialise. This time before committing remove Bhavin's password...
+
+3. Actually had to reinitialise renv, because it has to happen after cloning the repo from github, that way it has a `.gitignore` file for renv to amend. 
+
+4. Now commit 
+
+
+
+
+
+# Appendix
+
+```{r, echo = FALSE, out.width='100%', fig.caption = "This is what my makefile looks like graphically at the minute:"}
+knitr::include_graphics(paste0(rprojroot::find_root("Makefile"),"/figures/make.png"))
+```
