@@ -1,95 +1,94 @@
-#  ------------------------------------------------------------------------ #
-#                            RACF Fuel Factsheet                            #
-#                            -------------------                            #
-#       Download, Check, Compile and email the weekly fuel factsheet file   #
-#  ======================================================================== #
+# =========================================================================== #
+#                                                                             #
+#                            RACF Fuel Factsheet                              #
+#                            -------------------                              #
+#                                                                             #
+#       Download, Check, Compile and email the weekly fuel factsheet file     #
+#                                                                             #
+# =========================================================================== #
 
+
+# =========================================================================== #
+#                                INSTRUCTIONS                                 #
+# =========================================================================== #
+
+
+# =========================================================================== #
+#                                   TOC                                       #
+# =========================================================================== #
+# 1. Preliminaries                                                            #
+# 2. Download and clean data                                                  #
+# 3. Data checks                                                              #
+# 4. Prepare edits                                                            #
+# 5. Email file                                                               #
+# =========================================================================== #
+
+
+# =========================================================================== #
+# 1. Preliminaries                                                            #
+# =========================================================================== #
+
+# Packages ------------------------------------------------------------------ #
+library(XLConnect)
+library(mailR)
+library(googlesheets)
+library(RCurl)
+suppressPackageStartupMessages(library("dplyr"))
+
+# Working directory --------------------------------------------------------- #
 setwd("K:\\\\RESEARCH\\Data\\Fuel Factsheet")
 
-# INSTRUCTIONS ####################################################################################################
-# How to run this script:                                                                                      ####
-#  Press Ctrl+A  then Ctrl+R. Wait to see if it runs. If succesful the console (below)                          ###
-#  will say "End of Script" and there will be no errors in red in the console                                    ##                 
-#                                                                                                                 #
-# i.	  The new excel file is automatically saved in the k:drive and can be found in the "Data" section of the    #
-#       factsheet folder                                                                                          #
-# ii. 	The script automatically emails the data to Nick and Marc and Javelin via the user's Outlook.             #   
-#       Outlook is not required to be open but you may be asked to allow the email to take place.                 #                                                      #
-# iii.    When you get the fuel factsheet back from Javelin check the numbers against the EXCEL the script makes  #
-#       - the PDF file is saved in two places                                                                     #
-#       1) the PDF to be uploaded to the website is located \\RESEARCH\Data\Fuel Factsheet                        #
-#       2) the PDF of each week is located in \\RESEARCH\Data\Fuel Factsheet\PDF\YEAR                            ##
-#                                                                                                               ###
-# Created by Bhavin Makwana, last editedd 21/11/2018                                                          ####
-###################################################################################################################
+print("1. Preliminaries done")
 
-########################### YOU ARE UNABLE TO RUN THE FACTSHEET SCRIPT ON A MONDAY ###############################
-######## To be run on a Tuesday mornings or Wednesday if there has been a bank holiday! ###################
+# =========================================================================== #
+# 2. Download and clean data                                                  #
+# =========================================================================== #
 
-# Packages required
-####################
+# Download ------------------------------------------------------------------ #
 
-#java needs to be up-to-date (64bit)
-## if package fails uses:
-require(XLConnect)
-require(mailR)
-require(googlesheets)
-suppressPackageStartupMessages(library("dplyr"))
-#library(xlsx) #required for home running of the script
-library(RCurl)
+# register googlesheet
+factsheet <- gs_url(paste0("https://docs.google.com/spreadsheets/d/",
+                           "1sj_T9S2AkFYMrDZqL4ZQfUJTWeQEPCIKqlGS7kJOZ2A/",
+                           "edit#gid=1319741025"), 
+                    lookup = FALSE, visibility = NULL, verbose = TRUE)
+print("2. Googlesheet registered")
 
-print("PACKAGES LOADED")
+# download and assign requried data
 
-# Regster's the Factsheet (ANALYSIS) sheet by URL 
-###################################################
+pumpprice <- gs_read(factsheet, ws="Breakdown of pump price")                           
+#breakdown of pump price
+maxmin <- gs_read(factsheet, ws="Max/min fuel working", col_names = FALSE, "i1:j26") 
+#max/min working
+lastyear <- gs_read(factsheet, ws="Max/min fuel working", "E1:G260")                
+#pump rices over the lat year
+lastweek <- gs_read(factsheet, ws="Change from last week", col_names = FALSE)         
+#change from last week text
+overtime <- gs_read(factsheet, ws="Fuel Price over time", col_names = FALSE)         
+#fuel prices over time highs and lows only
+oilprice <- gs_read(factsheet, ws="Oil Price", "A1:d260")                 
+#one year oil data 
+oilmaxmin <- gs_read(factsheet, ws="Oil Price", "f1:h5")                  
+#max min workings
+UKvsEU <- gs_read(factsheet, ws="UK vs EU Fuel")                              
+#rankings EU fuel
+predictor <- gs_read(factsheet, ws="Fuel Predictor", range = "c23:i31")      
+#fuel price predictor data
+FPP <- gs_read(factsheet, ws="FPP -R", "A12:C14")
+#formatted predictor data 
+costtofillup <- gs_read(factsheet, ws="Av. family car", col_names = FALSE)    
+#cost to fill up an average car, today, one month, 6 month and low
+basil <- gs_read(factsheet, ws="basil data","b1:l260")
+#raw basil data - for reference
+# oilworking <- gs_read(factsheet, ws=13)                       
+#oil price working - for reference
+Changeoilfuel <- gs_read(factsheet, ws="Change fuel and oil", "A1:k30")
+#change info for fuel and oil 
 
-#Valid Foundation Username and Password needed
+print("3. Data imported")
 
-{
   
-  factsheet <- gs_url("https://docs.google.com/spreadsheets/d/1sj_T9S2AkFYMrDZqL4ZQfUJTWeQEPCIKqlGS7kJOZ2A/edit#gid=1319741025", 
-                      lookup = FALSE, visibility = NULL, verbose = TRUE)
   
-  print("SPREADSHEET REQUIRED")
-}
-
-
-# Download all required worksheet data and assign a name
-#########################################################
-{
-  #set_config( config( ssl_verifypeer = 0L ) ) #key to make this work. (Repeated due to change in settings) 
   
-  pumpprice <- gs_read(factsheet, ws="Breakdown of pump price")                           
-  #breakdown of pump price
-  maxmin <- gs_read(factsheet, ws="Max/min fuel working", col_names = FALSE, "i1:j26") 
-  #max/min working
-  lastyear <- gs_read(factsheet, ws="Max/min fuel working", "E1:G260")                
-  #pump rices over the lat year
-  lastweek <- gs_read(factsheet, ws="Change from last week", col_names = FALSE)         
-  #change from last week text
-  overtime <- gs_read(factsheet, ws="Fuel Price over time", col_names = FALSE)         
-  #fuel prices over time highs and lows only
-  oilprice <- gs_read(factsheet, ws="Oil Price", "A1:d260")                 
-  #one year oil data 
-  oilmaxmin <- gs_read(factsheet, ws="Oil Price", "f1:h5")                  
-  #max min workings
-  UKvsEU <- gs_read(factsheet, ws="UK vs EU Fuel")                              
-  #rankings EU fuel
-  predictor <- gs_read(factsheet, ws="Fuel Predictor", range = "c23:i31")      
-  #fuel price predictor data
-  FPP <- gs_read(factsheet, ws="FPP -R", "A12:C14")
-  #formatted predictor data 
-  costtofillup <- gs_read(factsheet, ws="Av. family car", col_names = FALSE)    
-  #cost to fill up an average car, today, one month, 6 month and low
-  basil <- gs_read(factsheet, ws="basil data","b1:l260")
-  #raw basil data - for reference
-  # oilworking <- gs_read(factsheet, ws=13)                       
-  #oil price working - for reference
-  Changeoilfuel <- gs_read(factsheet, ws="Change fuel and oil", "A1:k30")
-  #change info for fuel and oil 
-  
-  print("WORKSHEETS LOADED")
-}
 
 #######################-------------------- FUNCTIONS --------------------##########################
 {                                     
