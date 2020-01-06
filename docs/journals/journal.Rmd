@@ -103,11 +103,23 @@ The deliverable is a script/repo/package that does the following:
 4. Now commit 
 
 
+# Modnay 6.1.2020
+
+1. OK, not sure what was going on before, i'll remove the packrat folder and initialise renv. 
+
+2. This again didn't go completely smoothly and required a sequence of install.package (not successfully), remove.package, re-initialise renv before stopped giving a knitr error. Seems ok now. But it is not.
+
+3. Could it be that i had an old version of renv? i mean i clearly did. but i also know i'd already checked it before. but i guess that was checked inside a renv project? so that means it was updated there, but not globally? I really need to get a handle on package management in R. OK, reinstalled renv, reinitialised package, hopefully it works now. 
+
+4. Now figure out what i have already done here. 
+
+5. OK, so outbound is before crop presumably, i have the order wrong in the sandbox. 
 
 
 
-# Appendix
 
+
+ # Appendix  - make file
 ```{r, echo = FALSE, out.width='100%', fig.caption = "This is what my makefile looks like graphically at the minute:"}
 knitr::include_graphics(paste0(rprojroot::find_root("Makefile"),"/figures/make.png"))
 ```

@@ -40,3 +40,24 @@ In addition, we would like a second script (inbound) produced.  This would “re
 
 I do not expect PDF “reading” to work immediately and without trouble.  We would want you to provide a list of unreadable elements of the PDF, and then RACF would work with designers to produce alternatively designed elements which could be read by machine.  So there would be some iteration of the design until you have a readable PDF to work with.
 
+
+
+Updated 30.8.2019:
+
+The deliverable is a script (not a package, just a .R file) that does the following:
+
+1. downloads the data (this is already works in the existing script, so you can just plagiarize)
+
+2. does unit testing with reporting e.g. using testthat or tidytest (this is to be completely rewritten – I can tell you what the data tests should be)
+
+3. does necessary calculations (this is already OK – and is pretty straightforward)
+
+4. create a list of edits (this is to be completely rewritten)
+
+5. sends them to the designers and archives them (this is already OK – this bit of code can be copied over)
+
+ 
+
+The current excel spreadsheet is complex and not in a coherent order, and the code to make it is a mess.  My preference would be for a .CSV or .TXT file, as the main set of answers for the week, but some of the edits are a new times series, so it might be two or three CSVs, named with number references to which edits they refer to.
+
+ 
