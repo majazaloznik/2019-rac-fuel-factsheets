@@ -151,13 +151,34 @@ All the other variables etc. we will calculate in the script, not import them fr
 
 11. The fuel prediciton is not derived in the sheet, but somewhere else i gather. But i also don't see it on the factsheets, so i'm ignoring it for now. 
 
+12. OK, so only the raw data gets imported, now figure out the testing
 
+13. Have a look at the unit testing and look at tinytest and testthat to decide what if anything is approopriate. 
 
-1. Have a look at the unit testing and look at tinytest and testthat to decide what if anything is approopriate. 
+14. So there are four functions in the script:
 
+* `error check` is checking if there are any NAs in the cells. 
+* `sheet check` then just aggregates several error checks to see if they were all OK. 
+* `gg.convert` removes any remnnants from the google sheet and makes sure there are only numbers and NAs left. This one could be useful. 
+* `date.check` checks if the if the date is yesterday. 
 
+15. OK, so now I've got just the one function `Fun.gs.clean` that replaces any googlesheet errors (which all start with a hash # ) with an `NA`. Tested it on the weekly fule worksheet, which currenlty has those errors for whatever reason. Wokrs a treat. 
 
+16. Other checks:
 
+* are petrol and diesel more than 10p apart? - would you really want to stop, or just get a warning?
+* check the petrol and diesel prices are lower than their all time highs. so what if they are, what do you want to do? are these sanity checks or should sth be done?
+* duty rates are correct. if they are what you say they are. why are you importing them then? what if they actually change, why would you want the code to stop if they do?
+* checking date, checking week before is really week before. but this is again r code checking googlesheet code, which is silly. 
+* then there is another fuel price check, repeating the lower than max check. and adding a higher than 90 check. again. what if it happens. why is this being checked. 
+* also check the weekly difference isn't larger than 5p. otherwise stop. these should all be warnings for sure. 
+*  
+
+17. OK, so it seems that looking up prices for the previous week means looking 7 days back, but if that doesn't exist, then 6 days. Is that always OK? Anyway, means I have to treat dates as dates, not characters. 
+
+18. OK, now i'm ghaving trouble becuase the clena function is changing everythign to character vectors instead of keeping them numeric if they started out that way. OK, fixed.
+
+19. First five fields done. still haven't looked at unit testing per se. not sure if i need to for this?
 
 
 
