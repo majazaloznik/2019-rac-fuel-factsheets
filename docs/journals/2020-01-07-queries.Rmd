@@ -1,0 +1,13 @@
+---
+title: "Fuel Factsheet Queries"
+output:
+  pdf_document: default
+---
+
+1. How exactly does the googlesheet come into being? There are caclulations made in the sheet that I'd probably feel more comfortable making in the script. It's just that I don't like this stuff happening in the googlesheet. I'd much rather just import the raw data and manupulate it programatically in R as opposed to using googlesheet formulas. 
+
+2. For example the fuel price over time ten year maximums are not actually calculated in the googlesheet but are **fixed**. Maybe that's OK now, but what if the prices are surpassed? Who will know to manually fix that? Or what happens in 2022, when the maximum is no longer within the past ten years? 
+
+3. Some of the checking seems to be duplicating work and then comparing to itself. I'm not sure how that contributes much. Like e.g. oil max min seems to work like this: (i) the raw data is in the gs. (ii) the max and min are caclulated in the gs. (iii) the data is imported into R. (iv) the max and min. are imported into R. (v) the max and min are calculated again in R from the data imported in R. (vi) the calculated and imported max and min are compared. 
+
+Why would you do this? What kind of error is this anticipating? In the case of an error, which calculation wins out? I would just do the calculation in R. 

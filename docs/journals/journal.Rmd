@@ -115,7 +115,49 @@ The deliverable is a script/repo/package that does the following:
 
 5. OK, so outbound is before crop presumably, i have the order wrong in the sandbox. 
 
-6. 
+6. OK, start cleaning up the 01-outbound code. 
+
+# Tuesday 7.1.2020
+
+1. clean through read and assign data code. consistency, readability. 
+
+2. Data import works, but there are warning messages about missing column names being filled in X1 etc. 
+
+3. So many calculations are being made in the google sheet already. SO there are intermediate results there, as well as non-tidy tables and cells that are used to produce outputs to then import into R. But some are imported several times over. e.g. maxmin and lastweek. 
+
+4. I don't like this stuff happening in the google sheet. I'd much rather just import the raw data and manupulate it programatically in R as opposed to using googlesheet formulas. 
+
+5. For example the fuel price over time ten year maximums are not actually calculated in the googlesheet but are fixed. Maybe that's OK now, but what if the prices are surpassed? Who will know to manually fix that? Or what happens in 2022, when the maximum is no longer within the past ten years?
+
+6. "sensechecks" e.g. oil max min seem to work like this: (i) the raw data is in the gs. (ii) the max and min are caclulated in the gs. (iii) the data is imported into R. (iv) the max and min. are imported into R. (v) the max and min are calculated from the data imported in R. (vi) the calculated and imported max and min are compared. 
+
+7. Some of the chacking seems to be duplicating work and then comparing to itself. I'm not sure how that contributes much. Like e.g. oil max min seems to work like this: (i) the raw data is in the gs. (ii) the max and min are caclulated in the gs. (iii) the data is imported into R. (iv) the max and min. are imported into R. (v) the max and min are calculated again in R from the data imported in R. (vi) the calculated and imported max and min are compared. 
+
+Why would you do this? What kind of error is this anticipating? In the case of an error, which calculation wins out? I would just do the calculation in R. 
+
+8. OK, the facsheet seems to have 77 fields, some are single values, others multiple ones e.g. time series. A tidy way of outputting this is a sinlge numbered long table, with a field ID number, description and values, plus an index variable for fields with multiple values. 
+
+9. What are we checking? Sanity checks. OK. But i'm not writing tests to check my code. or the googlesheet code. 
+
+10. OK, so let's just import the raw tables that are necessary for all the other calculations. That means: 
+
+* `pump.prices` which is the last years worth of petrol and diesel prices. 
+* `oil.prices`, same for oil
+* `basil`, which is some other raw data we need
+* `taxes`, which lists duty  and VAT levels
+* `eu.compare` which lists the pump price ranking of all eu countries
+
+All the other variables etc. we will calculate in the script, not import them from the googlesheet. 
+
+11. The fuel prediciton is not derived in the sheet, but somewhere else i gather. But i also don't see it on the factsheets, so i'm ignoring it for now. 
+
+
+
+1. Have a look at the unit testing and look at tinytest and testthat to decide what if anything is approopriate. 
+
+
+
+
 
 
 

@@ -36,7 +36,7 @@ library(RCurl)
 suppressPackageStartupMessages(library("dplyr"))
 
 # Working directory --------------------------------------------------------- #
-setwd("K:\\\\RESEARCH\\Data\\Fuel Factsheet")
+# setwd("K:\\\\RESEARCH\\Data\\Fuel Factsheet")
 
 print("1. Preliminaries done")
 
@@ -47,48 +47,57 @@ print("1. Preliminaries done")
 # Download ------------------------------------------------------------------ #
 
 # register googlesheet
-factsheet <- gs_url(paste0("https://docs.google.com/spreadsheets/d/",
+{gs <- gs_url(paste0("https://docs.google.com/spreadsheets/d/",
                            "1sj_T9S2AkFYMrDZqL4ZQfUJTWeQEPCIKqlGS7kJOZ2A/",
                            "edit#gid=1319741025"), 
                     lookup = FALSE, visibility = NULL, verbose = TRUE)
-print("2. Googlesheet registered")
+print("2. Googlesheet registered")}
 
-# download and assign requried data
+# Read and assign cells ----------------------------------------------------- #
 
-pumpprice <- gs_read(factsheet, ws="Breakdown of pump price")                           
-#breakdown of pump price
-maxmin <- gs_read(factsheet, ws="Max/min fuel working", col_names = FALSE, "i1:j26") 
-#max/min working
-lastyear <- gs_read(factsheet, ws="Max/min fuel working", "E1:G260")                
-#pump rices over the lat year
-lastweek <- gs_read(factsheet, ws="Change from last week", col_names = FALSE)         
-#change from last week text
-overtime <- gs_read(factsheet, ws="Fuel Price over time", col_names = FALSE)         
-#fuel prices over time highs and lows only
-oilprice <- gs_read(factsheet, ws="Oil Price", "A1:d260")                 
-#one year oil data 
-oilmaxmin <- gs_read(factsheet, ws="Oil Price", "f1:h5")                  
-#max min workings
-UKvsEU <- gs_read(factsheet, ws="UK vs EU Fuel")                              
-#rankings EU fuel
-predictor <- gs_read(factsheet, ws="Fuel Predictor", range = "c23:i31")      
-#fuel price predictor data
-FPP <- gs_read(factsheet, ws="FPP -R", "A12:C14")
-#formatted predictor data 
-costtofillup <- gs_read(factsheet, ws="Av. family car", col_names = FALSE)    
-#cost to fill up an average car, today, one month, 6 month and low
-basil <- gs_read(factsheet, ws="basil data","b1:l260")
-#raw basil data - for reference
-# oilworking <- gs_read(factsheet, ws=13)                       
-#oil price working - for reference
-Changeoilfuel <- gs_read(factsheet, ws="Change fuel and oil", "A1:k30")
-#change info for fuel and oil 
+# Raw data ------------------------------------------------------------------ #
+
+# pump prices over the last year - raw
+pump.prices <- gs_read(gs, ws="Max/min fuel working", "E1:G260")        
+# oil prices for the last year - raw
+oil.prices <- gs_read(gs, ws="Oil Price", "A1:D260")                 
+# fuel price rankings of EU countries 
+eu.compare <- gs_read(gs, ws="UK vs EU Fuel")      
+# raw basil data - for reference
+basil <- gs_read(gs, ws="basil data","B1:L260")
+# duty and vat numbers -raw
+taxes <- gs_read(gs, ws="Fuel Data")
+
+# # breakdown of pump price - derived from pump.prices, taxes, oil prices
+# breakdown <- gs_read(gs, ws="Breakdown of pump price")
+
+# # max/min working - derived from pump price
+# maxmin <- gs_read(gs, ws="Max/min fuel working", col_names = FALSE, "I1:J26")
+
+# # change from last week text - derived from pump price
+# lastweek <- gs_read(gs, ws="Change from last week", col_names = FALSE)
+
+# # fuel prices over time highs and lows only - derived from pump price, except 10 year
+# overtime <- gs_read(gs, ws="Fuel Price over time", col_names = FALSE)
+
+# # max min workings - derived from oil prices
+# oilmaxmin <- gs_read(gs, ws="Oil Price", "F1:H5")
+
+# # fuel price predictor data - this is derived somewhere else?
+# predictor <- gs_read(gs, ws="Fuel Predictor", range = "C23:I31")
+
+# #formatted predictor data - same as predictor
+# FPP <- gs_read(gs, ws="FPP -R", "A12:C14")
+
+# # cost to fill up an average car, today, one month, 6 month and low
+# # all derived from pump price table
+# costtofillup <- gs_read(gs, ws="Av. family car", col_names = FALSE)   
+
+# # same as costtofillup
+# # change info for fuel and oil 
+# Changeoilfuel <- gs_read(gs, ws="Change fuel and oil", "A1:K30")
 
 print("3. Data imported")
-
-  
-  
-  
 
 #######################-------------------- FUNCTIONS --------------------##########################
 {                                     
@@ -138,16 +147,17 @@ print("3. Data imported")
     return(dc)
   }
   
-  ############# FUNCTION 5 #################
+}
   
   
   
+############################################################################
   
-  ################################################################################################
-  
-  # Check the data is correct
-  #############################
-  
+
+# Clean data ---------------------------------------------------------------- #
+
+
+
   ## PUMP PRICE CHECKS ##
   
   #daily pump price data cells
@@ -510,7 +520,7 @@ if (sheet.check(cfo) == "STOP"){
 
 
 
-# Creating the custom data frames in the current Factsheet layout
+# Creating the custom data frames in the current gs layout
 #################################################################
 
 #fuel price data frame
@@ -681,4 +691,4 @@ sendEmail("anneka.lawson@racfoundation.org; ivo.wengraf@racfoundation.org; nick@
 
 print("Email Sent")
 print("END OF THE SCRIPT")
-}
+
