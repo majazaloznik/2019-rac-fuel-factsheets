@@ -123,17 +123,15 @@ The deliverable is a script/repo/package that does the following:
 
 2. Data import works, but there are warning messages about missing column names being filled in X1 etc. 
 
-3. So many calculations are being made in the google sheet already. SO there are intermediate results there, as well as non-tidy tables and cells that are used to produce outputs to then import into R. But some are imported several times over. e.g. maxmin and lastweek. 
+3. So, many calculations are being made in the google sheet already. So there are intermediate results there, as well as non-tidy tables and cells that are used to produce outputs to then import into R. But some are imported several times over. e.g. maxmin and lastweek. 
 
-4. I don't like this stuff happening in the google sheet. I'd much rather just import the raw data and manupulate it programatically in R as opposed to using googlesheet formulas. 
+4. I don't like this stuff happening in the google sheet. I'd much rather just import the raw data and manupulate it programatically in R as opposed to using googlesheet formulas. That also reduces the possibility of googlesheet error. 
 
 5. For example the fuel price over time ten year maximums are not actually calculated in the googlesheet but are fixed. Maybe that's OK now, but what if the prices are surpassed? Who will know to manually fix that? Or what happens in 2022, when the maximum is no longer within the past ten years?
 
-6. "sensechecks" e.g. oil max min seem to work like this: (i) the raw data is in the gs. (ii) the max and min are caclulated in the gs. (iii) the data is imported into R. (iv) the max and min. are imported into R. (v) the max and min are calculated from the data imported in R. (vi) the calculated and imported max and min are compared. 
+6. Some of the checking seems to be duplicating work and then comparing to itself. I'm not sure how that contributes much. Like e.g. oil max min seems to work like this: (i) the raw data is in the gs. (ii) the max and min are caclulated in the gs. (iii) the data is imported into R. (iv) the max and min. are imported into R. (v) the max and min are calculated again in R from the data imported in R. (vi) the calculated and imported max and min are compared. 
 
-7. Some of the chacking seems to be duplicating work and then comparing to itself. I'm not sure how that contributes much. Like e.g. oil max min seems to work like this: (i) the raw data is in the gs. (ii) the max and min are caclulated in the gs. (iii) the data is imported into R. (iv) the max and min. are imported into R. (v) the max and min are calculated again in R from the data imported in R. (vi) the calculated and imported max and min are compared. 
-
-Why would you do this? What kind of error is this anticipating? In the case of an error, which calculation wins out? I would just do the calculation in R. 
+7. Why would you do this? What kind of error is this anticipating? In the case of an error, which calculation wins out? I would just do the calculation in R. 
 
 8. OK, the facsheet seems to have 77 fields, some are single values, others multiple ones e.g. time series. A tidy way of outputting this is a sinlge numbered long table, with a field ID number, description and values, plus an index variable for fields with multiple values. 
 
@@ -176,11 +174,60 @@ All the other variables etc. we will calculate in the script, not import them fr
 
 17. OK, so it seems that looking up prices for the previous week means looking 7 days back, but if that doesn't exist, then 6 days. Is that always OK? Anyway, means I have to treat dates as dates, not characters. 
 
-18. OK, now i'm ghaving trouble becuase the clena function is changing everythign to character vectors instead of keeping them numeric if they started out that way. OK, fixed.
+18. OK, now i'm having trouble becuase the clean function is changing everythign to character vectors instead of keeping them numeric if they started out that way. OK, fixed.
 
 19. First five fields done. still haven't looked at unit testing per se. not sure if i need to for this?
 
 20. commit
+
+# wednesday 8.1.2020
+
+OK: unit testing reading. 
+
+* [not hugely useful, but testthat example outside package](https://towardsdatascience.com/unit-testing-in-r-68ab9cc8d211)
+
+* [maybe `assertr` is what i really need](https://github.com/ropensci/assertr) for verifying assumptions about the data. 
+
+* `assertr` looks interesting, since it's focussed more on data shape and form, not on testing functions. but it doesn't look like it has a nice way of communicating. like you get these report tables, which are maybe not easy to read for someone who didin't write the tests. [vignette](https://cran.r-project.org/web/packages/assertr/vignettes/assertr.html). 
+
+* assertr just throws an error an stops execution. ah, that's not true, you can configure what it does. you cna write your own, but `error_append` seems useful also `just_warn`, which just prints the errors, but doesn't stop execution. 
+
+* to report on a series of assertions you use `chain_start` and `chain_end`, and you can write your own `error_fun`, so looking very good. 
+
+* have a look at tidytest
+
+* Rstudio folks debate using testthat outside packages [here](https://github.com/r-lib/testthat/issues/659), prefer using packages, but it's possible. 
+
+* the problem with `testthat` is that it tests the whole script. so the test file sources the code, and then runs the tests. This won't work for me. Unless I break up the script into import/clean, compute, prepare edits and email. Then each could be tested individually. Would be fun as well. 
+
+* here's another non-package tutorial on testthat [here](https://katherinemwood.github.io/post/testthat/)
+
+* Maybe I could just try out both approaches. See what I like best? :D
+
+* there might be philosophical reasons for not using testthat, since it in principle increases the difference between the developer's version and the user's ([explained here](https://www.r-bloggers.com/unit-tests-in-r/)). 
+
+* the `tinytest` vignette is [here](https://cran.r-project.org/web/packages/tinytest/vignettes/using_tinytest.pdf) and seems quite similar to testthat, albeit not package focussed. Very useful vignette, some basic stuff about unit testing:
++ only test exported functions, not internal ones (makes it easier to change the internals later if you have to. and avoid changing the externals). 
++ make the ratio of external to internal functions small = a spherical package. 
++ the "external surface" of a package i.e. the exported funcitons is also called  the API. 
++ idealy test all the possible paths through your code. but can be unrealistic. second best is to at least test each line of code: *full code coverage* means each line is run at least once during testing. 
++ for every bug write a test. then be really freaked out if it reappears. 
++ beware of side effects. `on.exit()` is a useful function to make sure you don't get derailed and return everything to how it was. 
+
+* Hm so what do i do now, tinytest feels nicer, but very undocumented. Or do I want to use `assertr` - “Assertion” is computer-science jargon for a run-time check on your code. 
+
+1. OK, so splitting the files into modular subroutines and using tinytest to test each one. 
+
+2. tinytest won't let me test the working directory - it just gives the one where the file is. open [issue](https://github.com/markvanderloo/tinytest/issues/45). 
+
+3. OK, the nice thing about source and test is that source leaves the console nice and clean (if you supress all messages and warnings), so then you only see the outputs of the tests. 
+
+4. OK, now actually moved the testing into the modular scripts, so called at the end of each script. The outputs are saved so they can be viewed at the end. 
+
+5. Commit. 
+
+
+
 
  # Appendix  - make file
 ```{r, echo = FALSE, out.width='100%', fig.caption = "This is what my makefile looks like graphically at the minute:"}

@@ -7,91 +7,24 @@
 #                                                                             #
 # =========================================================================== #
 
-
 # =========================================================================== #
 #                                INSTRUCTIONS                                 #
 # =========================================================================== #
 
-
-# =========================================================================== #
-#                                   TOC                                       #
-# =========================================================================== #
-# 1. Preliminaries                                                            #
-# 2. Download and clean raw data                                              #
-# 3. Preform necessary calculations                                           #
-# 4. Prepare edits                                                            #
-# 5. Email file                                                               #
-# =========================================================================== #
-
-
 # =========================================================================== #
 # 1. Preliminaries                                                            #
 # =========================================================================== #
 
-# Packages ------------------------------------------------------------------ #
-library(XLConnect)
-library(mailR)
-library(googlesheets)
-library(RCurl)
-suppressPackageStartupMessages(library("dplyr"))
-
-# Working directory --------------------------------------------------------- #
-# setwd("K:\\\\RESEARCH\\Data\\Fuel Factsheet")
-
-print("1. Preliminaries done")
+source("code/01-preliminaries.R")
 
 # =========================================================================== #
 # 2. Download and clean data                                                  #
 # =========================================================================== #
 
-# Download ------------------------------------------------------------------ #
+source("code/02-download.R")
 
-# register googlesheet
-{gs <- gs_url(paste0("https://docs.google.com/spreadsheets/d/",
-                           "1sj_T9S2AkFYMrDZqL4ZQfUJTWeQEPCIKqlGS7kJOZ2A/",
-                           "edit#gid=1319741025"), 
-                    lookup = FALSE, visibility = NULL, verbose = TRUE)
-print("2. Googlesheet registered")}
 
-# Read and assign cells ----------------------------------------------------- #
 
-# Raw data ------------------------------------------------------------------ #
-
-# pump prices over the last year - raw
-pump.prices <- gs_read(gs, ws="Max/min fuel working", "E1:G260")  
-# oil prices for the last year - raw
-oil.prices <- gs_read(gs, ws="Oil Price", "A1:D260")                 
-# fuel price rankings of EU countries 
-eu.compare <- gs_read(gs, ws="UK vs EU Fuel")      
-# raw basil data - for reference
-basil <- gs_read(gs, ws="basil data","B1:L260")
-# duty and vat numbers -raw
-taxes <- gs_read(gs, ws="Fuel Data")
-
-print("3. Data imported")
-
-# Functions ----------------------------------------------------------------- #
-
-# Helper function cleaning out any googlesheet remnants such as #DIV/0 or 
-# similar. They all start with the hash symbol: #
-Fun.gs.clean <- function(df) {
-  df[] <- lapply(df, function(x) gsub("^#", NA, x))
-  df
-}
-  
-# Clean data ---------------------------------------------------------------- #
-
-# remove any googlesheet errors
-pump.prices <- Fun.gs.clean(pump.prices)
-oil.prices <- Fun.gs.clean(oil.prices)
-eu.compare <- Fun.gs.clean(eu.compare)
-taxes <- Fun.gs.clean(taxes)
-basil <- Fun.gs.clean(basil)
-
-# chage dates to actual dates
-pump.prices$Date <- as.Date(pump.prices$Date, "%d/%m/%Y")
-pump.prices[] <- lapply(pump.prices, function(x) 
-  if(is.character(x)) as.numeric(x) else x)
 
 # =========================================================================== #
 # 3. Preform necessary calculations                                           #
@@ -102,7 +35,7 @@ pump.prices[] <- lapply(pump.prices, function(x)
 # 1 date 
 
 date <- pull(pump.prices[1,1])
-  
+
 # 2 petrol price
 
 pump.prices %>% 
@@ -124,8 +57,8 @@ pp.lw.dif <- pp.current - pp.last.week
 pp.lw.text <- ifelse(pp.lw.dif > 0, 
                      paste0("up ", pp.lw.dif, "p since last week"), 
                      ifelse( pp.lw.dif < 0, 
-                       paste0("down ", pp.lw.dif, "p since last week"), 
-                       "No change since last week"))
+                             paste0("down ", pp.lw.dif, "p since last week"), 
+                             "No change since last week"))
 
 # 4 diesel price
 
@@ -148,8 +81,8 @@ dp.lw.dif <- dp.current - dp.last.week
 dp.lw.text <- ifelse(dp.lw.dif > 0, 
                      paste0("up ", dp.lw.dif, "p since last week"), 
                      ifelse(dp.lw.dif < 0, 
-                       paste0("down ", dp.lw.dif, "p since last week"), 
-                       "No change since last week"))
+                            paste0("down ", dp.lw.dif, "p since last week"), 
+                            "No change since last week"))
 
 
 # Breakdown of average UK pump prices --------------------------------------- #
