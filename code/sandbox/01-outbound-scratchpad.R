@@ -1,265 +1,163 @@
-#  ------------------------------------------------------------------------ #
-#                            RACF Fuel Factsheet                            #
-#                            -------------------                            #
-#       Download, Check, Compile and email the weekly fuel factsheet file   #
-#  ======================================================================== #
+# =========================================================================== #
+#                                                                             #
+#                            RACF Fuel Factsheet                              #
+#                            -------------------                              #
+#                                                                             #
+#       Download, Check, Compile and email the weekly fuel factsheet file     #
+#                                                                             #
+# =========================================================================== #
 
-setwd("K:\\\\RESEARCH\\Data\\Fuel Factsheet")
 
-# INSTRUCTIONS ####################################################################################################
-# How to run this script:                                                                                      ####
-#  Press Ctrl+A  then Ctrl+R. Wait to see if it runs. If succesful the console (below)                          ###
-#  will say "End of Script" and there will be no errors in red in the console                                    ##                 
-#                                                                                                                 #
-# i.	  The new excel file is automatically saved in the k:drive and can be found in the "Data" section of the    #
-#       factsheet folder                                                                                          #
-# ii. 	The script automatically emails the data to Nick and Marc and Javelin via the user's Outlook.             #   
-#       Outlook is not required to be open but you may be asked to allow the email to take place.                 #                                                      #
-# iii.    When you get the fuel factsheet back from Javelin check the numbers against the EXCEL the script makes  #
-#       - the PDF file is saved in two places                                                                     #
-#       1) the PDF to be uploaded to the website is located \\RESEARCH\Data\Fuel Factsheet                        #
-#       2) the PDF of each week is located in \\RESEARCH\Data\Fuel Factsheet\PDF\YEAR                            ##
-#                                                                                                               ###
-# Created by Bhavin Makwana, last editedd 21/11/2018                                                          ####
-###################################################################################################################
+# =========================================================================== #
+#                                INSTRUCTIONS                                 #
+# =========================================================================== #
 
-########################### YOU ARE UNABLE TO RUN THE FACTSHEET SCRIPT ON A MONDAY ###############################
-######## To be run on a Tuesday mornings or Wednesday if there has been a bank holiday! ###################
 
-# Packages required
-####################
+# =========================================================================== #
+#                                   TOC                                       #
+# =========================================================================== #
+# 1. Preliminaries                                                            #
+# 2. Download and clean raw data                                              #
+# 3. Preform necessary calculations                                           #
+# 4. Prepare edits                                                            #
+# 5. Email file                                                               #
+# =========================================================================== #
 
-#java needs to be up-to-date (64bit)
-## if package fails uses:
-require(XLConnect)
-require(mailR)
-require(googlesheets)
-suppressPackageStartupMessages(library("dplyr"))
-#library(xlsx) #required for home running of the script
+
+# =========================================================================== #
+# 1. Preliminaries                                                            #
+# =========================================================================== #
+
+# Packages ------------------------------------------------------------------ #
+library(XLConnect)
+library(mailR)
+library(googlesheets)
 library(RCurl)
+suppressPackageStartupMessages(library("dplyr"))
 
-print("PACKAGES LOADED")
+# Working directory --------------------------------------------------------- #
+# setwd("K:\\\\RESEARCH\\Data\\Fuel Factsheet")
 
-# Regster's the Factsheet (ANALYSIS) sheet by URL 
-###################################################
+print("1. Preliminaries done")
 
-#Valid Foundation Username and Password needed
+# =========================================================================== #
+# 2. Download and clean data                                                  #
+# =========================================================================== #
 
-{
-  
-  factsheet <- gs_url("https://docs.google.com/spreadsheets/d/1sj_T9S2AkFYMrDZqL4ZQfUJTWeQEPCIKqlGS7kJOZ2A/edit#gid=1319741025", 
-                      lookup = FALSE, visibility = NULL, verbose = TRUE)
-  
-  print("SPREADSHEET REQUIRED")
+# Download ------------------------------------------------------------------ #
+
+# register googlesheet
+{gs <- gs_url(paste0("https://docs.google.com/spreadsheets/d/",
+                           "1sj_T9S2AkFYMrDZqL4ZQfUJTWeQEPCIKqlGS7kJOZ2A/",
+                           "edit#gid=1319741025"), 
+                    lookup = FALSE, visibility = NULL, verbose = TRUE)
+print("2. Googlesheet registered")}
+
+# Read and assign cells ----------------------------------------------------- #
+
+# Raw data ------------------------------------------------------------------ #
+
+# pump prices over the last year - raw
+pump.prices <- gs_read(gs, ws="Max/min fuel working", "E1:G260")  
+# oil prices for the last year - raw
+oil.prices <- gs_read(gs, ws="Oil Price", "A1:D260")                 
+# fuel price rankings of EU countries 
+eu.compare <- gs_read(gs, ws="UK vs EU Fuel")      
+# raw basil data - for reference
+basil <- gs_read(gs, ws="basil data","B1:L260")
+# duty and vat numbers -raw
+taxes <- gs_read(gs, ws="Fuel Data")
+
+print("3. Data imported")
+
+# Functions ----------------------------------------------------------------- #
+
+# Helper function cleaning out any googlesheet remnants such as #DIV/0 or 
+# similar. They all start with the hash symbol: #
+Fun.gs.clean <- function(df) {
+  df[] <- lapply(df, function(x) gsub("^#", NA, x))
+  df
 }
+  
+# Clean data ---------------------------------------------------------------- #
+
+# remove any googlesheet errors
+pump.prices <- Fun.gs.clean(pump.prices)
+oil.prices <- Fun.gs.clean(oil.prices)
+eu.compare <- Fun.gs.clean(eu.compare)
+taxes <- Fun.gs.clean(taxes)
+basil <- Fun.gs.clean(basil)
+
+# chage dates to actual dates
+pump.prices$Date <- as.Date(pump.prices$Date, "%d/%m/%Y")
+pump.prices[] <- lapply(pump.prices, function(x) 
+  if(is.character(x)) as.numeric(x) else x)
+
+# =========================================================================== #
+# 3. Preform necessary calculations                                           #
+# =========================================================================== #
+
+# Average UK pump prices ---------------------------------------------------- #
+
+# 1 date 
+
+date <- pull(pump.prices[1,1])
+  
+# 2 petrol price
+
+pump.prices %>% 
+  filter(Date == date) %>% 
+  pull(Petrol) -> pp.current
+
+# price previous week  
+pump.prices %>% 
+  filter(Date >= date - 7) %>% 
+  filter(row_number() == nrow(.)) %>% 
+  pull(Petrol) -> pp.last.week
+
+# difference since last week
+
+pp.lw.dif <- pp.current - pp.last.week
+
+# 3. text change since last week.
+
+pp.lw.text <- ifelse(pp.lw.dif > 0, 
+                     paste0("up ", pp.lw.dif, "p since last week"), 
+                     ifelse( pp.lw.dif < 0, 
+                       paste0("down ", pp.lw.dif, "p since last week"), 
+                       "No change since last week"))
+
+# 4 diesel price
+
+pump.prices %>% 
+  filter(Date == date) %>% 
+  pull(Diesel) -> dp.current
+
+# price previous week  
+pump.prices %>% 
+  filter(Date >= date - 7) %>% 
+  filter(row_number() == nrow(.)) %>% 
+  pull(Diesel) -> dp.last.week
+
+# difference since last week
+
+dp.lw.dif <- dp.current - dp.last.week
+
+# 5 text change since last week.
+
+dp.lw.text <- ifelse(dp.lw.dif > 0, 
+                     paste0("up ", dp.lw.dif, "p since last week"), 
+                     ifelse(dp.lw.dif < 0, 
+                       paste0("down ", dp.lw.dif, "p since last week"), 
+                       "No change since last week"))
 
 
-# Download all required worksheet data and assign a name
-#########################################################
-{
-  #set_config( config( ssl_verifypeer = 0L ) ) #key to make this work. (Repeated due to change in settings) 
-  
-  pumpprice <- gs_read(factsheet, ws="Breakdown of pump price")                           
-  #breakdown of pump price
-  maxmin <- gs_read(factsheet, ws="Max/min fuel working", col_names = FALSE, "i1:j26") 
-  #max/min working
-  lastyear <- gs_read(factsheet, ws="Max/min fuel working", "E1:G260")                
-  #pump rices over the lat year
-  lastweek <- gs_read(factsheet, ws="Change from last week", col_names = FALSE)         
-  #change from last week text
-  overtime <- gs_read(factsheet, ws="Fuel Price over time", col_names = FALSE)         
-  #fuel prices over time highs and lows only
-  oilprice <- gs_read(factsheet, ws="Oil Price", "A1:d260")                 
-  #one year oil data 
-  oilmaxmin <- gs_read(factsheet, ws="Oil Price", "f1:h5")                  
-  #max min workings
-  UKvsEU <- gs_read(factsheet, ws="UK vs EU Fuel")                              
-  #rankings EU fuel
-  predictor <- gs_read(factsheet, ws="Fuel Predictor", range = "c23:i31")      
-  #fuel price predictor data
-  FPP <- gs_read(factsheet, ws="FPP -R", "A12:C14")
-  #formatted predictor data 
-  costtofillup <- gs_read(factsheet, ws="Av. family car", col_names = FALSE)    
-  #cost to fill up an average car, today, one month, 6 month and low
-  basil <- gs_read(factsheet, ws="basil data","b1:l260")
-  #raw basil data - for reference
-  # oilworking <- gs_read(factsheet, ws=13)                       
-  #oil price working - for reference
-  Changeoilfuel <- gs_read(factsheet, ws="Change fuel and oil", "A1:k30")
-  #change info for fuel and oil 
-  
-  print("WORKSHEETS LOADED")
-}
-
-#######################-------------------- FUNCTIONS --------------------##########################
-{                                     
-  ############## FUNCTION 1 #################
-  # check for NAs
-  error.check <- function(x) {
-    if ( any(is.na(x) == TRUE) ) {
-      ss <-"ERROR" 
-    } else {
-      ss <- "GO"
-    } 
-    return(ss)
-  }
-  
-  ############## FUNCTION 2 #################
-  sheet.check <- function(x) {
-    if ( any(x == "ERROR") ) {
-      sc <- "STOP"
-    } else {
-      sc <- "All OK"
-    } 
-    return(sc)
-  }
-  
-  ############# FUNCTION 3 ##################
-  # remove any google sheet remnants leaving only numbers and NAs?
-  gg.convert <- function(x) {
-    x[x == "#N/A"] <- NA 
-    x[x == "#REF!"] <- NA 
-    x[x == "#DIV/0!"] <- NA 
-    x[x == "#NULL!"] <- NA 
-    x[x == "#VALUE!"] <- NA 
-    x[x == "#NAME?"] <- NA
-    x[x == "#NUM!"] <- NA
-    return(x)
-  }
-  
-  
-  ############# FUNCTION 4 ##################
-  date.check <- function(x) {
-    date <- Sys.Date()-1 == as.Date(x, format = "%d/%m/%Y")
-    if (date ==TRUE ){
-      dc <- ("DATE CORRECT")
-    } else {
-      dc <- stop("DATE IS WRONG")
-    } 
-    return(dc)
-  }
-  
-  ############# FUNCTION 5 #################
-  
-  
-  
-  
-  ################################################################################################
-  
-  # Check the data is correct
-  #############################
-  
-  ## PUMP PRICE CHECKS ##
-  
-  #daily pump price data cells
-  cellpprow <- c(1:11)
-  cellspp <- c(1:11, 15:18, 20:23)
-  cellspp2 <- c(15:17, 20:22)
-  
-  #turn #N/A google errors into R errors
-  pumpprice <- gg.convert(pumpprice)
-  
-  #check for errors in each column of the sheet
-  pp.1 <- error.check(pumpprice$X1[cellpprow])
-  pp.2 <- error.check(pumpprice$Daily[cellspp])
-  pp.3 <- error.check(pumpprice$X3[cellspp2])
-  pp <- c(pp.1, pp.2, pp.3)
-  
-  #check for errors in the entire sheet
-  if (sheet.check(pp) == "STOP"){
-    stop("ERROR IN PUMP PRICE")
-  } else {
-    print("BREAKDOWN OF PUMP PRICE CHECKED FOR ERRORS")
-  }
-  
-  #Check the date is correct
-  date.check(pumpprice$Daily[1])
-  
-  #LOGIC TESTS
-  as.numeric(pumpprice$Daily[2]) ->petrol
-  as.numeric(pumpprice$Daily[3]) -> diesel
-  
-  
-  #checks fuel prices are no more than 10ppl apart
-  if (petrol+10<diesel) {
-    stop("CHECK THE FUEL PRICES")
-  } else {
-    print("Fuel prices ok - not more than 10ppl apart")
-  }
-  
-  #checks less than all time high
-  if (petrol>142) {
-    stop("CHECK THE PETROL PRICE")
-  } else {
-    print("Petrol price less than all time high")
-  }
-  
-  if (diesel>148) {
-    stop("CHECK THE DIESEL PRICE")
-  } else {
-    print("Diesel price less than all time high")
-  }
-  
-  #checks duty 
-  if((as.numeric(pumpprice$Daily[6]) == 57.95 & as.numeric(pumpprice$Daily[7]) == 57.95)==TRUE){
-    print("Duty rates are correct")
-  } else {
-    stop("DUTY RATES ARE NOT CORRECT")
-  }
-  
-  ## MAX/MIN PRICE WORKING CHECK ###
-  
-  #cells to check
-  cellsmm <- c(1:4, 6:8)
-  cellsmm2 <-c(1:4, 6:8,13,15:16,19:20,22:23,25:26)
-  
-  #convert google errors into R errors
-  maxmin <- gg.convert(maxmin)
+# Breakdown of average UK pump prices --------------------------------------- #
 
 
-#check errors in each column of the sheet
-mm.1 <- error.check(maxmin$X1[cellsmm])
-mm.2 <- error.check(maxmin$X2[cellsmm2])
-mm <- c(mm.1,mm.2)
 
-#check sheet for errors
-if (sheet.check(mm) == "STOP"){
-  stop("ERROR IN MAX MIN WORKING")
-} else {
-  print("MAX MIN WORKING CHECKED & ALL OK")
-}
 
-#Check the date is correct
-date.check(maxmin$X1[1])
-date.check(as.Date(maxmin$X2[13], "%d/%m/%Y") +7) #week before date
 
-#LOGIC TESTS
-petrol.max <- as.numeric(maxmin$X2[3])
-as.numeric(maxmin$X2[4]) -> petrol.min
-as.numeric(maxmin$X2[7]) -> diesel.max
-as.numeric(maxmin$X2[8]) -> diesel.min
-petrol.lw <- as.numeric(maxmin$X2[15])
-diesel.lw <- as.numeric(maxmin$X2[16])
-
-#checks fuel prices are not extreme
-if (diesel.max>148 | diesel.min<90) {
-  stop("CHECK THE DIESEL PRICE")
-} else {
-  print("Diesel price OK")
-}
-
-if (petrol.max>142 | petrol.min<90) {
-  stop("CHECK THE PETROL PRICES")
-} else {
-  print("Petrol prices ok")
-}
-
-#checks fuel price change is less than 5ppl 
-if ((abs(petrol-petrol.lw))>5 | (abs(diesel-diesel.lw))>5) {
-  stop("CHECK THE FUEL PRICES")
-} else {
-  print("Fuel prices ok")
-}
 ## Fuel date from last year ##
 
 # convert google errors in R errors
@@ -511,7 +409,7 @@ if (sheet.check(cfo) == "STOP"){
 
 
 
-# Creating the custom data frames in the current Factsheet layout
+# Creating the custom data frames in the current gs layout
 #################################################################
 
 #fuel price data frame
@@ -682,4 +580,4 @@ sendEmail("anneka.lawson@racfoundation.org; ivo.wengraf@racfoundation.org; nick@
 
 print("Email Sent")
 print("END OF THE SCRIPT")
-}
+
