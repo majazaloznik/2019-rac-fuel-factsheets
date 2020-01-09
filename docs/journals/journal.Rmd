@@ -226,6 +226,17 @@ OK: unit testing reading.
 
 5. Commit. 
 
+# Thursday 9.1.2020
+
+1. add `here`to preliminaries and its test. 
+
+2. OK, testing for the download script. What happens if a table does not exist. all the subsequent tests don't actually fail, they don't work, since the object doesn't exist. SO you have to add the test `exists("object")` to each test. annoying. tip. 
+
+3. OK, now start on 03-calculations. WHat might one test? Just what was in the original.
+
+4. Hm, i'm *not checking for NAs yet*
+
+
 
 
 

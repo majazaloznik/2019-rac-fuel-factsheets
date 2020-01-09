@@ -1,5 +1,6 @@
 # test packages are all loaded correclty. 
 expect_true("tinytest" %in% (.packages())) # meta B)
+expect_true("here" %in% (.packages()))
 expect_true("XLConnect" %in% (.packages()))
 expect_true("mailR" %in% (.packages()))
 expect_true("googlesheets" %in% (.packages()))

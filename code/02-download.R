@@ -15,21 +15,21 @@ gs <- gs_url(paste0("https://docs.google.com/spreadsheets/d/",
 # pump prices over the last year 
 pump.prices <- gs_read(gs, ws="Max/min fuel working", "E1:G260", verbose = F)  
 
-# oil prices for the last year 
-oil.prices <- gs_read(gs, ws="Oil Price", "A1:D260", verbose = FALSE)  
-
-# fuel price rankings of EU countries 
-suppressWarnings(
-  suppressMessages(
-    eu.compare <- gs_read(gs, ws="UK vs EU Fuel", verbose = FALSE)))
-
-# raw basil data - for reference
-basil <- gs_read(gs, ws="basil data","B1:L260", verbose = FALSE)  
-
-# duty and vat numbers -raw
-suppressWarnings(
-  suppressMessages(
-    taxes <- gs_read(gs, ws="Fuel Data", verbose = FALSE) ))
+# # oil prices for the last year 
+# oil.prices <- gs_read(gs, ws="Oil Price", "A1:D260", verbose = FALSE)  
+# 
+# # fuel price rankings of EU countries 
+# suppressWarnings(
+#   suppressMessages(
+#     eu.compare <- gs_read(gs, ws="UK vs EU Fuel", verbose = FALSE)))
+# 
+# # raw basil data - for reference
+# basil <- gs_read(gs, ws="basil data","B1:L260", verbose = FALSE)  
+# 
+# # duty and vat numbers -raw
+# suppressWarnings(
+#   suppressMessages(
+#     taxes <- gs_read(gs, ws="Fuel Data", verbose = FALSE) ))
 
 # Functions ----------------------------------------------------------------- #
 
@@ -44,10 +44,10 @@ Fun.gs.clean <- function(df) {
 
 # remove any googlesheet errors
 pump.prices <- Fun.gs.clean(pump.prices)
-oil.prices <- Fun.gs.clean(oil.prices)
-eu.compare <- Fun.gs.clean(eu.compare)
-taxes <- Fun.gs.clean(taxes)
-basil <- Fun.gs.clean(basil)
+# oil.prices <- Fun.gs.clean(oil.prices)
+# eu.compare <- Fun.gs.clean(eu.compare)
+# taxes <- Fun.gs.clean(taxes)
+# basil <- Fun.gs.clean(basil)
 
 # chage dates to actual dates
 pump.prices$Date <- as.Date(pump.prices$Date, "%d/%m/%Y")

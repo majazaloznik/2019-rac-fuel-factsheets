@@ -4,6 +4,7 @@
 
 # Packages ------------------------------------------------------------------ #
 suppressPackageStartupMessages(library(tinytest))
+suppressPackageStartupMessages(library(here))
 suppressPackageStartupMessages(library(XLConnect))
 suppressPackageStartupMessages(library(mailR))
 suppressPackageStartupMessages(library(googlesheets))
