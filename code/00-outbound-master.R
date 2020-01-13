@@ -33,26 +33,7 @@ source("code/03-calculations.R")
 # Breakdown of average UK pump prices --------------------------------------- #
 
 
-## Fuel date from last year ##
 
-# convert google errors in R errors
-lastyear <- gg.convert(lastyear)
-
-#colum error check
-ly.1 <- error.check(lastyear$Date)
-ly.2 <- error.check(lastyear$Petrol)
-ly.3 <- error.check(lastyear$Diesel)
-ly <- c(ly.1, ly.2, ly.3)
-
-# sheet check
-if (sheet.check(ly) == "STOP"){
-  stop("ERROR IN LAST YEAR FUEL DATA")
-} else {
-  print("LAST YEAR FUEL DATA CHECKED & ALL OK")
-}
-
-# date check
-date.check(lastyear$Date[1])
 
 #check the date range is a year +- 3 days (from a leap year)
 if ( (as.Date(lastyear$Date[1], "%d/%m/%Y") -
@@ -66,58 +47,8 @@ if ( (as.Date(lastyear$Date[1], "%d/%m/%Y") -
 
 ##  Change from last week ##
 
-# convert google errors in R errors
-lastweek <- gg.convert(lastweek)
-
-#colum error check
-lw.1 <- error.check(lastweek$X1)
-lw.2 <- error.check(lastweek$X2)
-lw <- c(lw.1, lw.2)
-
-# sheet check
-if (sheet.check(lw) == "STOP"){
-  stop("ERROR IN LAST WEEK DATA")
-} else {
-  print("LAST WEEK DATA CHECKED & ALL OK")
-}
-
 ## Fuel prices over time ##
 
-# convert google errors in R errors
-overtime <- gg.convert(overtime)
-
-#colum error check
-ot.1 <- error.check(overtime$X1)
-ot.2 <- error.check(overtime$X2)
-ot.3 <- error.check(overtime$X3)
-ot.4 <- error.check(overtime$X4)
-ot <- c(ot.1, ot.2, ot.3, ot.4)
-
-# sheet check
-if (sheet.check(ot) == "STOP"){
-  stop("ERROR IN PRICE OVER TIME DATA")
-} else {
-  print("PRICE OVER TIME DATA CHECKED & ALL OK")
-}
-
-## Oil price data check ##
-
-# convert google errors in R errors
-oilprice <- gg.convert(oilprice)
-
-#colum error check
-op.1 <- error.check(oilprice$Date)
-op.2 <- error.check(oilprice$`Brent Crude Oil ($/barrel)`)
-op.3 <- error.check(oilprice$`Brent Crude Oil (£/barrel)`)
-op.4 <- error.check(oilprice$`Pound to USD Exchange Rate`)
-op <- c(op.1, op.2, op.3, op.4)
-
-# sheet check
-if (sheet.check(op) == "STOP"){
-  stop("ERROR IN OIL PRICE OVER TIME DATA")
-} else {
-  print("OIL PRICE OVER TIME DATA CHECKED & ALL OK")
-}
 
 # date check
 date.check(oilprice$Date[1])

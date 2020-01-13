@@ -232,13 +232,42 @@ OK: unit testing reading.
 
 2. OK, testing for the download script. What happens if a table does not exist. all the subsequent tests don't actually fail, they don't work, since the object doesn't exist. SO you have to add the test `exists("object")` to each test. annoying. tip. 
 
-3. OK, now start on 03-calculations. WHat might one test? Just what was in the original.
+3. OK, now start on 03-calculations. What might one test? Just what was in the original.
 
 4. Hm, i'm *not checking for NAs yet*
 
 
+# Modnay 13.1.2020
 
+1. ok, move on to breakdown of average uk prices, which means cleaning up the tax/duty table
 
+2. OK, i'm confused, the "Fuel Data" sheet, I was going to use it to get the VAT and duty levels, but the most recent data in there is 1 year old. What is this table doing there? Should I just hardcode the VAT and duty rates? What if they change?
+
+3. Don't really know what to test on the taxes/VAT table. Except column types. 
+
+4. OK, let's download all the tables, finish the 02-download.R file. 
+
+5. The eu compare table is downloaded separately for petrol and diesel.
+
+6. The problem is all the tables in the googlesheet are so untidy.. 
+
+7. OK, all data are imported, cleaned and this is tested. Except for NAs. *where should i test for NAs?*
+
+8. What happens on a Monday? Added a test
+
+9. A bit worried about these tests. If they don't fail, but trhow errors, how useful is that going to be? 
+
+10. I mean how useful are these tests in the first place.. 
+
+11. How do i do "price one month ago"? The google sheet does sth weird, where it goes one month back, but if that is a sunday it takes the friday before it, but if it's a saturday, it takes the thursday before it?! Surely that's an error and should take the Friday in both cases. 
+
+12. I'll keep it simple. Go one month back, if data doesn't exist, go back an extra day or two until data exists. So it is alwyas one month or just a bit more. 
+
+13. Another werid thing the google sheet does is for 6 months ago, it takes 6 months + 1 day. No idea why, it's inconsistent with how one month ago works. I'm ignoring it. 
+
+14. OK, finished firt page. But mosth of the calculated values do not get tested, don't really know what to test them for. Await instructions. 
+
+15. Commit. 
 
  # Appendix  - make file
 ```{r, echo = FALSE, out.width='100%', fig.caption = "This is what my makefile looks like graphically at the minute:"}

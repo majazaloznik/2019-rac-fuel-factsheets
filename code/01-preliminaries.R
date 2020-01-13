@@ -9,9 +9,17 @@ suppressPackageStartupMessages(library(XLConnect))
 suppressPackageStartupMessages(library(mailR))
 suppressPackageStartupMessages(library(googlesheets))
 suppressPackageStartupMessages(library(RCurl))
-suppressPackageStartupMessages(library("dplyr"))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(lubridate))
 
+options(stringsAsFactors=FALSE)
 
+# Functions ----------------------------------------------------------------- #
+
+# round to exactly n decimal places
+FunDec <- function(x, n) {
+  format(round(x, n), nsmall = n)
+}
 
 # =========================================================================== #
 # test                                                                        #

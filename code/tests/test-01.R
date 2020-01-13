@@ -9,3 +9,8 @@ expect_true("dplyr" %in% (.packages()))
 
 # test correct working directory - doesn't work - https://github.com/markvanderloo/tinytest/issues/45
 # expect_equal(getwd(), "/home/mz/Dropbox/XtraWork/consulting/2019-rac-fuel-factsheets")
+
+# test it isn't a Monday
+Sys.setlocale("LC_TIME", "C")
+expect_false(weekdays(Sys.Date()) == "Monday",
+             info = "You shouldn't be preparing the factsheet on a Monday!")
