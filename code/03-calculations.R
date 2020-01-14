@@ -2,14 +2,12 @@
 # 3. Preform necessary calculations                                           #
 # =========================================================================== #
 
-
-
 # --------------------------------------------------------------------------- #
 # Average UK pump prices ---------------------------------------------------- #
 # --------------------------------------------------------------------------- #
 
 # 1 date 
-date <- as.Date("29/07/2019", "%d/%m/%Y") #pump.prices[1,1]
+date <- pump.prices[1,1]
 
 # 2 petrol price
 pump.prices %>% 
@@ -167,8 +165,7 @@ pump.prices %>%
 
 # 28 12-month low as text
 
-paste0("£",
-       year.min.p$tank,
+paste0("£", FunDec(year.min.p$tank, 2), " (",
        day(year.min.p$Date), " ", 
        month(year.min.p$Date, label=TRUE, abbr=FALSE), " ",
        year(year.min.p$Date), ")") -> year.min.tank.p
@@ -178,8 +175,8 @@ pump.prices %>%
   filter(Diesel == min(Diesel)) %>% 
   mutate(tank = Diesel * 55 /100)-> year.min.d
 
-# 28 12-month low as text
-paste0("£",year.min.d$tank, " (", 
+# 29 12-month low as text
+paste0("£",FunDec(year.min.d$tank, 2), " (", 
        day(year.min.d$Date), " ", 
        month(year.min.d$Date, label=TRUE, abbr=FALSE), " ",
        year(year.min.d$Date), ")") -> year.min.tank.d

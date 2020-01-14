@@ -29,8 +29,13 @@ source("code/02-download.R")
 
 source("code/03-calculations.R")
 
+# =========================================================================== #
+# 4. Prepare all required data for export                                     #
+# =========================================================================== #
 
-# Breakdown of average UK pump prices --------------------------------------- #
+source("code/04-export.R")
+
+
 
 
 

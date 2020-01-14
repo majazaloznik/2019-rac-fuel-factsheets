@@ -265,9 +265,31 @@ OK: unit testing reading.
 
 13. Another werid thing the google sheet does is for 6 months ago, it takes 6 months + 1 day. No idea why, it's inconsistent with how one month ago works. I'm ignoring it. 
 
-14. OK, finished firt page. But mosth of the calculated values do not get tested, don't really know what to test them for. Await instructions. 
+14. OK, finished first page. But mosth of the calculated values do not get tested, don't really know what to test them for. Await instructions. 
 
 15. Commit. 
+
+
+# Tuesday 14.1.2019
+
+1. Start working on export script. 
+
+2. For starters let's have all the data as a list, each number a list element. Each element a dataframe with the following vars:
+
+* id number
+* sequence number within ID
+* description
+* value
+
+3. But what happens with the tables with two or more variables, e.g. the price data for the chart. That has three values. There are two tables like that, and then there's the EU country comparison, which also has two values. 
+
+4. If I put it all into one csv file, it will have to be in a tidy table, but that won't be practical for the designers, because the three tables will need to be "spread". So best if the three tables are exported separately. WHich means i also don't ned the sequence number for all the other ones. 
+
+5. Question: e.g. in fields 2, 4 or 7, should i add the "p" to the prices or just leave the numbers?
+
+6. OK, prepared export for all first page data. COmmit. 
+
+
 
  # Appendix  - make file
 ```{r, echo = FALSE, out.width='100%', fig.caption = "This is what my makefile looks like graphically at the minute:"}
