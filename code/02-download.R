@@ -16,7 +16,12 @@ gs <- gs_url(paste0("https://docs.google.com/spreadsheets/d/",
 pump.prices <- gs_read(gs, ws="Max/min fuel working", "E1:G260", verbose = F)  
 
 # oil prices for the last year
-oil.prices <- gs_read(gs, ws="Oil Price", "A1:D260", verbose = FALSE)
+oil.prices <- gs_read(gs, ws="Oil Price", "A2:D260", 
+                      col_names = c("Date",
+                                    "Brent.USD",
+                                    "Brent.GBP",
+                                    "GBP.USD.xr"),
+                      verbose = FALSE)
 
 # fuel price rankings of EU countries
 eu.p <- gs_read(gs, ws="UK vs EU Fuel", "A3:C30", 
@@ -30,6 +35,21 @@ eu.d <- gs_read(gs, ws="UK vs EU Fuel", "E3:G30",
                                                  "country.d",
                                                  "retail.d"),
                                    verbose = FALSE)
+
+# pre-tax fuel price rankings of EU countries
+eu.pre.t.p <- gs_read(gs, ws="UK vs EU Fuel", "A46:D73", 
+                col_names = c("pretax",
+                              "tax.perc",
+                              "retail.p", 
+                              "country"),
+                verbose = FALSE)
+
+eu.pre.t.d <- gs_read(gs, ws="UK vs EU Fuel", "F46:I73", 
+                      col_names = c("pretax",
+                                    "tax.perc",
+                                    "retail.p", 
+                                    "country"),
+                      verbose = FALSE)
 
 # raw basil data - for reference
 basil <- gs_read(gs, ws="basil data","B1:L260", verbose = FALSE)
@@ -62,6 +82,8 @@ pump.prices <- Fun.gs.clean(pump.prices)
 oil.prices <- Fun.gs.clean(oil.prices)
 eu.p <- Fun.gs.clean(eu.p)
 eu.d <- Fun.gs.clean(eu.d)
+eu.pre.t.p <- Fun.gs.clean(eu.pre.t.p)
+eu.pre.t.d <- Fun.gs.clean(eu.pre.t.d)
 taxes <- Fun.gs.clean(taxes)
 basil <- Fun.gs.clean(basil)
 
@@ -74,6 +96,8 @@ basil <- Fun.col.types(basil)
 # clean currency symbols
 eu.p$retail.p <- as.numeric(gsub("\\£", "", eu.p$retail.p))
 eu.d$retail.d <- as.numeric(gsub("\\£", "", eu.d$retail.d))
+eu.pre.t.p$tax.perc <- as.numeric(gsub("\\£", "", eu.pre.t.p$tax.perc))
+eu.pre.t.d$tax.perc <- as.numeric(gsub("\\£", "", eu.pre.t.d$tax.perc))
 
 
 # =========================================================================== #

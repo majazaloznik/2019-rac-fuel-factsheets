@@ -287,11 +287,26 @@ OK: unit testing reading.
 
 5. Question: e.g. in fields 2, 4 or 7, should i add the "p" to the prices or just leave the numbers?
 
-6. OK, prepared export for all first page data. COmmit. 
+6. OK, prepared export for all first page data. Commit. 
+
+7. Continue 03-calculations. 
+
+8. Oil price over last 12 months chart. There's an error in the visualisation: the minimum is for \$/barrel, but is drawn on the £/barrel line. Maybe it's not an error, but it's an awkwardness. One option is to print out both the £/barrel and the \$/barrel prices, and draw a vertical dashed line connecting both points. It is theoretically possible that lowest price in $ is not the same day as the lowest price in £ though. But it seems rather unlikely?
+
+9. The oil price data has tricky column names, i'll change those on import to prevent issues further on. 
+
+10. Rest of graph: does that mean the actual charts need to be provided or only the data? I'm assuming only the data tables for now. 
+
+11. is the first date on the pump.price table always the same as the frist one in the oil.price table? Can i assume that? should i check it?
+
+12. how do i do the arrows?
+
+13. is the oil price table always exactly 365 days long? i mean can i just take the last row in the table to get last year's price?. Same qyestion for pump prices. last row?
+
+14. Oh, there's a whole other table hidden on the eu sheet, the one with pre-tax numbers, which i need. Added to downloads. *still need to add testes*
 
 
-
- # Appendix  - make file
+# Appendix  - make file
 ```{r, echo = FALSE, out.width='100%', fig.caption = "This is what my makefile looks like graphically at the minute:"}
 knitr::include_graphics(paste0(rprojroot::find_root("Makefile"),"/figures/make.png"))
 ```
