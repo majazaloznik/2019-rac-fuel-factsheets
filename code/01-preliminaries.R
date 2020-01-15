@@ -11,6 +11,7 @@ suppressPackageStartupMessages(library(googlesheets))
 suppressPackageStartupMessages(library(RCurl))
 suppressPackageStartupMessages(library(dplyr))
 suppressPackageStartupMessages(library(lubridate))
+suppressPackageStartupMessages(library(readr))
 
 options(stringsAsFactors=FALSE)
 

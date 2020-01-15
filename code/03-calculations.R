@@ -275,16 +275,18 @@ oil.prices %>%
 lw.dif.pr.b <- current.usd.b - last.week.pr.b
 
 # 41 change in brent price since previous week txt
-
 lw.text.pr.b <- ifelse(lw.dif.pr.b > 0, "Up ",
                        ifelse( lw.dif.pr.b < 0, 
                                "Down", "No change since last week"))
 
 # 42 absolute difference since last week
-lw.dif.pr.b <- abs(lw.dif.pr.b)
+lw.adif.pr.b <- abs(lw.dif.pr.b)
 
 
 # 43 change in brent price since previous week arrow
+lw.arrow.pr.b <- ifelse(lw.dif.pr.b > 0, "^",
+                       ifelse( lw.dif.pr.b < 0, 
+                               "v", "-"))
 
 # price previous month  
 oil.prices %>% 
@@ -302,9 +304,12 @@ lm.text.pr.b <- ifelse(lm.dif.pr.b > 0, "Up ",
                                "Down", "No change since last month"))
 
 # 45 absolute difference since last month
-lm.dif.pr.b <- abs(lm.dif.pr.b)
+lm.adif.pr.b <- abs(lm.dif.pr.b)
 
 # 46 change in brent price since previous month arrow
+lm.arrow.pr.b <- ifelse(lm.dif.pr.b > 0, "^",
+                        ifelse( lm.dif.pr.b < 0, 
+                                "v", "-"))
 
 # price previous year
 oil.prices %>% 
@@ -320,10 +325,13 @@ ly.text.pr.b <- ifelse(ly.dif.pr.b > 0, "Up ",
                        ifelse( ly.dif.pr.b < 0, 
                                "Down", "No change since last month"))
 
-# 48 absolute difference since last week
-ly.dif.pr.b <- abs(ly.dif.pr.b)
+# 48 absolute difference since last year
+ly.adif.pr.b <- abs(ly.dif.pr.b)
 
 # 49 change in brent price since last year arrow
+ly.arrow.pr.b <- ifelse(ly.dif.pr.b > 0, "^",
+                        ifelse( ly.dif.pr.b < 0, 
+                                "v", "-"))
 
 # --------------------------------------------------------------------------- #
 # UK average pump price change ---------------------------------------------- #
@@ -335,9 +343,12 @@ lw.word.pr.p <- ifelse(lw.dif.pr.p > 0, "Up ",
                                "Down", "No change since last week"))
 
 # 51 absolute difference since last week
-lw.dif.pr.p <- abs(lw.dif.pr.p)
+lw.adif.pr.p <- abs(lw.dif.pr.p)
 
 # 52 change in petrol price since previous week arrow
+lw.arrow.pr.p <- ifelse(lw.dif.pr.p > 0, "^",
+                        ifelse( lw.dif.pr.p < 0, 
+                                "v", "-"))
 
 #  difference since last month
 lm.dif.pr.p <- current.pr.p - last.month.pr.p
@@ -349,9 +360,12 @@ lm.word.pr.p <- ifelse(lm.dif.pr.p > 0, "Up ",
                                "Down", "No change since last month"))
 
 # 54 absolute difference since last month
-lm.dif.pr.p <- abs(lm.dif.pr.p)
+lm.adif.pr.p <- abs(lm.dif.pr.p)
 
 # 55 change in petrol price since previous month arrow
+lm.arrow.pr.p <- ifelse(lm.dif.pr.p > 0, "^",
+                        ifelse( lm.dif.pr.p < 0, 
+                                "v", "-"))
 
 # price previous year
 pump.prices %>% 
@@ -362,17 +376,17 @@ pump.prices %>%
 ly.dif.pr.p <- current.pr.p - last.year.pr.p
 
 # 56 change in petrol price since previous year txt
-
 ly.word.pr.p <- ifelse(ly.dif.pr.p > 0, "Up ",
                        ifelse( ly.dif.pr.p < 0, 
                                "Down", "No change since last year"))
 
 # 57 absolute difference since last year
-ly.dif.pr.p <- abs(ly.dif.pr.p)
+ly.adif.pr.p <- abs(ly.dif.pr.p)
 
 # 58 change in petrol price since previous year arrow
-
-
+ly.arrow.pr.p <- ifelse(ly.dif.pr.p > 0, "^",
+                        ifelse( ly.dif.pr.p < 0, 
+                                "v", "-"))
 
 # 59 change in diesel price since previous week txt
 lw.word.pr.d <- ifelse(lw.dif.pr.d > 0, "Up ",
@@ -380,9 +394,12 @@ lw.word.pr.d <- ifelse(lw.dif.pr.d > 0, "Up ",
                               "Down", "No change since last week"))
 
 # 60 absolute difference since last week
-lw.dif.pr.d <- abs(lw.dif.pr.d)
+lw.adif.pr.d <- abs(lw.dif.pr.d)
 
 # 61 change in diesel price since previous week arrow
+lw.arrow.pr.d <- ifelse(lw.dif.pr.d > 0, "^",
+                        ifelse(lw.dif.pr.d < 0, 
+                                "v", "-"))
 
 #  difference since last month
 lm.dif.pr.d <- current.pr.d - last.month.pr.d
@@ -394,9 +411,12 @@ lm.word.pr.d <- ifelse(lm.dif.pr.d > 0, "Up ",
                                "Down", "No change since last month"))
 
 # 63 absolute difference since last month
-lm.dif.pr.d <- abs(lm.dif.pr.d)
+lm.adif.pr.d <- abs(lm.dif.pr.d)
 
 # 64 change in diesel price since previous month arrow
+lm.arrow.pr.d <- ifelse(lm.dif.pr.d > 0, "^",
+                        ifelse(lm.dif.pr.d < 0, 
+                               "v", "-"))
 
 # price previous year
 pump.prices %>% 
@@ -412,9 +432,12 @@ ly.word.pr.d <- ifelse(ly.dif.pr.d > 0, "Up ",
                                "Down", "No change since last year"))
 
 # 66 absolute difference since last year
-ly.dif.pr.d <- abs(ly.dif.pr.d)
+ly.adif.pr.d <- abs(ly.dif.pr.d)
 
 # 67 change in petrol price since previous year arrow
+ly.arrow.pr.d <- ifelse(ly.dif.pr.d > 0, "^",
+                        ifelse(ly.dif.pr.d < 0, 
+                               "v", "-"))
 
 
 # --------------------------------------------------------------------------- #

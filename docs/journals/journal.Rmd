@@ -303,8 +303,15 @@ OK: unit testing reading.
 
 13. is the oil price table always exactly 365 days long? i mean can i just take the last row in the table to get last year's price?. Same qyestion for pump prices. last row?
 
-14. Oh, there's a whole other table hidden on the eu sheet, the one with pre-tax numbers, which i need. Added to downloads. *still need to add testes*
+14. Oh, there's a whole other table hidden on the eu sheet, the one with pre-tax numbers, which i need. Added to downloads. still need to add tests. ok added some tests. 
 
+# Wednesday 15.1.2020
+
+1. finish export script. can make each subseciton a separate table, which can all be merged together in the end, but if need be I can split them up as well. 
+
+2. OK, all 04.export done. 
+
+3. commit
 
 # Appendix  - make file
 ```{r, echo = FALSE, out.width='100%', fig.caption = "This is what my makefile looks like graphically at the minute:"}
