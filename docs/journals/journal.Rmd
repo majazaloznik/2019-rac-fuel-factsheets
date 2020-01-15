@@ -313,6 +313,14 @@ OK: unit testing reading.
 
 3. commit
 
+4. Add some tests for the exports. Mainly number of rows? What else might there be. As long as all of them exist, that's all I need to know. 
+
+5. Start overall flow, stopping progres from one step to anohter
+
+6. not full proof yet though.
+
+7. commit
+
 # Appendix  - make file
 ```{r, echo = FALSE, out.width='100%', fig.caption = "This is what my makefile looks like graphically at the minute:"}
 knitr::include_graphics(paste0(rprojroot::find_root("Makefile"),"/figures/make.png"))

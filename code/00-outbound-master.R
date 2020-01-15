@@ -7,33 +7,55 @@
 #                                                                             #
 # =========================================================================== #
 
+
 # =========================================================================== #
 #                                INSTRUCTIONS                                 #
 # =========================================================================== #
+#                                                                             #
+#                            Source this file.                                #
+#                                                                             #
+#                Check output in console for any issues.                      #
+#                                                                             #
+# =========================================================================== #
+
 
 # =========================================================================== #
 # 1. Preliminaries                                                            #
 # =========================================================================== #
-
 source("code/01-preliminaries.R")
 
 # =========================================================================== #
 # 2. Download and clean data                                                  #
 # =========================================================================== #
-
-source("code/02-download.R")
+if (all(sapply(test01, isTRUE)))   {
+  print("Prelimnaries script completed. Now running Download and clean.")
+  source("code/02-download.R") } else {
+    print("The preliminary script did not run smoothly. See errors below:")
+      sapply(test01, function(x) attributes(x)$info)[!sapply(test01, isTRUE)] 
+      stop()
+    }
 
 # =========================================================================== #
 # 3. Preform necessary calculations                                           #
 # =========================================================================== #
-
-source("code/03-calculations.R")
+if (all(sapply(test02, isTRUE)))   {
+  print("Download and clean script completed. Now running calculations.")
+  source("code/03-calculations.R")} else {
+    print("The download script did not run smoothly. See errors below:")
+    sapply(test02, function(x) attributes(x)$info)[!sapply(test02, isTRUE)] 
+  }
 
 # =========================================================================== #
 # 4. Prepare all required data for export                                     #
 # =========================================================================== #
+if (all(sapply(test03, isTRUE)))   {
+  print("Calculations script completed. Now running export script")
+  source("code/04-export.R")} else {
+    print("The calculations script did not run smoothly. See errors below:")
+    sapply(test03, function(x) attributes(x)$info)[!sapply(test03, isTRUE)] 
+  }
 
-source("code/04-export.R")
+
 
 
 

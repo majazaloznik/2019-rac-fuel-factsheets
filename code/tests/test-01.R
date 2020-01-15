@@ -6,6 +6,7 @@ expect_true("mailR" %in% (.packages()))
 expect_true("googlesheets" %in% (.packages()))
 expect_true("RCurl" %in% (.packages()))
 expect_true("dplyr" %in% (.packages()))
+expect_true("xdsf" %in% (.packages()), info = "The xdfs package did not load properly")
 
 # test correct working directory - doesn't work - https://github.com/markvanderloo/tinytest/issues/45
 # expect_equal(getwd(), "/home/mz/Dropbox/XtraWork/consulting/2019-rac-fuel-factsheets")

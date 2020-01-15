@@ -515,3 +515,12 @@ write_csv(pump.chart, "data/processed/pump.chart.csv")
 write_csv(oil.chart, "data/processed/oil.chart.csv")
 write_csv(eu.rank.p, "data/processed/eu.rank.p.csv")
 write_csv(eu.rank.d, "data/processed/eu.rank.d.csv")
+
+
+
+# =========================================================================== #
+# test                                                                        #
+# =========================================================================== #
+
+test04 <- run_test_file(here::here("code/tests/test-04.R"))
+
