@@ -321,6 +321,24 @@ OK: unit testing reading.
 
 7. commit
 
+# Monday 20.1.2020
+
+1. OK, first four scripts and tests seem to work ok, along with the error messages and throughflow. 
+
+2. Now sort out the email.
+
+3. First need to make sure the attachments are saved in the correct folder. 
+
+4. Stop annoying warning if folder exists already. OK
+
+5. flow: if on non-work computer you need to change a logical switch and add your correct data folder. 
+
+6. I cannot get either of the email scripts to work, since i don't have outlook or real credentials. But i did just essentially copy them, so fingers crossed if they worked before they should work now as well. 
+
+7. OK, now all should work i think. All tests have to pass to complete next step. But there is no test for email right now. 
+
+
+
 # Appendix  - make file
 ```{r, echo = FALSE, out.width='100%', fig.caption = "This is what my makefile looks like graphically at the minute:"}
 knitr::include_graphics(paste0(rprojroot::find_root("Makefile"),"/figures/make.png"))

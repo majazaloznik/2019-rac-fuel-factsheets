@@ -510,12 +510,25 @@ bind_rows(tab01,
           tab09) -> master
 
 # export as csv
-write_csv(master, "data/processed/master.csv")
-write_csv(pump.chart, "data/processed/pump.chart.csv")
-write_csv(oil.chart, "data/processed/oil.chart.csv")
-write_csv(eu.rank.p, "data/processed/eu.rank.p.csv")
-write_csv(eu.rank.d, "data/processed/eu.rank.d.csv")
+working.year <- format(Sys.Date(), "%Y")
 
+data.folder <- if(work.computer) {paste0(work.data.folder,"/", working.year, "/")
+} else{ paste0(non.work.data.folder,"/", working.year, "/")}
+  
+suppressWarnings(dir.create(data.folder))
+
+fn1 <- paste0(data.folder, "RACF Fuel factsheet",  Sys.Date()-1, "-master.csv")
+fn2 <- paste0(data.folder, "RACF Fuel factsheet",  Sys.Date()-1, "-pump.chart.csv")
+fn3 <- paste0(data.folder, "RACF Fuel factsheet", Sys.Date()-1, "-oil.chart.csv")
+fn4 <- paste0(data.folder, "RACF Fuel factsheet", Sys.Date()-1, "-eu.rank.p.csv")
+fn5 <- paste0(data.folder, "RACF Fuel factsheet", Sys.Date()-1, "-eu.rank.d.csv")
+attachments  <- c(fn1, fn2, fn3, fn4, fn5) 
+
+write_csv(master, fn1)
+write_csv(pump.chart, fn2)
+write_csv(oil.chart, fn3)
+write_csv(eu.rank.p, fn4)
+write_csv(eu.rank.d, fn5)
 
 
 # =========================================================================== #

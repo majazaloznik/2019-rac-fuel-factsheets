@@ -1,7 +1,7 @@
 order.p,country.p,retail.p
 1,Netherlands,1.3
 2,UK,1.28
-3,Denmark,1.28
+3,Denmark,1.27
 4,Italy,1.27
 5,Greece,1.26
 6,Finland,1.21
@@ -9,14 +9,14 @@ order.p,country.p,retail.p
 8,France,1.2
 9,Portugal,1.2
 10,Malta,1.16
-11,Germany,1.16
+11,Germany,1.15
 12,Ireland,1.15
-13,Belgium,1.11
+13,Belgium,1.1
 14,Estonia,1.06
-15,Slovakia,1.06
+15,Slovakia,1.05
 16,Croatia,1.04
-17,Czechia,1.04
-18,Slovenia,1.04
+17,Czechia,1.03
+18,Slovenia,1.03
 19,Latvia,1.02
 20,Spain,1.01
 21,Austria,1
@@ -26,4 +26,4 @@ order.p,country.p,retail.p
 25,Cyprus,0.93
 26,Hungary,0.91
 27,Romania,0.91
-28,Bulgaria,0.84
+28,Bulgaria,0.83
