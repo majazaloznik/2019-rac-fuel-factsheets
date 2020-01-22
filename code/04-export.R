@@ -38,7 +38,7 @@ tab01 %>%
 # 5 text change since last week.
 tab01 %>% 
   bind_rows(list(id = 5, 
-                 description = "change in dieselprice since last week (txt)", 
+                 description = "change in diesel price since last week (txt)", 
                  value = lw.text.pr.d)) -> tab01
 
 # --------------------------------------------------------------------------- #
@@ -243,8 +243,8 @@ tab04 %>%
                  value = as.character(year.min.text.p))) -> tab04
 
 # 34 rest of chart - 12 month prices
-
-pump.chart <- pump.prices
+pump.prices %>% 
+  mutate_if(is.numeric, function(x) FunDec(x,2)) -> pump.chart
 
 
 # --------------------------------------------------------------------------- #
@@ -269,7 +269,11 @@ tab06 %>%
                  value = as.character(year.min.text.b))) -> tab06
 
 # 38 rest of chart - 12 months brent prices 
-oil.chart <- select(oil.prices, -GBP.USD.xr) 
+oil.prices %>%
+  select( -GBP.USD.xr) %>% 
+  mutate_if(is.numeric, function(x) FunDec(x,2)) -> oil.chart
+
+
 
 # --------------------------------------------------------------------------- #
 # Oil price ----------------------------------------------------------------- #
@@ -488,18 +492,20 @@ tab09 %>%
 
 # 70 & 71 & 72 & 73 petrol ranking
 eu.p %>% 
-  arrange(desc(retail.p))  -> eu.rank.p
+  arrange(desc(retail.p))   %>% 
+  mutate_if(is.numeric, function(x) paste0("£", FunDec(x,2))) -> eu.rank.p
 
 # 704, 75, 76, 77 diesel ranking
 eu.d %>% 
-  arrange(desc(retail.d)) ->  eu.rank.d
+  arrange(desc(retail.d)) %>% 
+  mutate_if(is.numeric, function(x) paste0("£", FunDec(x,2))) ->  eu.rank.d
 
 
 # =========================================================================== #
 # 5. Export                                                                   #
 # =========================================================================== #
 
-# bind all  together
+# bind all subtables together
 bind_rows(tab01,
           tab02,
           tab03,
@@ -509,27 +515,68 @@ bind_rows(tab01,
           tab08,
           tab09) -> master
 
-# export as csv
+# create data folder if needed
 working.year <- format(Sys.Date(), "%Y")
 
 data.folder <- if(work.computer) {paste0(work.data.folder,"/", working.year, "/")
 } else{ paste0(non.work.data.folder,"/", working.year, "/")}
-  
+
 suppressWarnings(dir.create(data.folder))
 
-fn1 <- paste0(data.folder, "RACF Fuel factsheet",  Sys.Date()-1, "-master.csv")
-fn2 <- paste0(data.folder, "RACF Fuel factsheet",  Sys.Date()-1, "-pump.chart.csv")
-fn3 <- paste0(data.folder, "RACF Fuel factsheet", Sys.Date()-1, "-oil.chart.csv")
-fn4 <- paste0(data.folder, "RACF Fuel factsheet", Sys.Date()-1, "-eu.rank.p.csv")
-fn5 <- paste0(data.folder, "RACF Fuel factsheet", Sys.Date()-1, "-eu.rank.d.csv")
-attachments  <- c(fn1, fn2, fn3, fn4, fn5) 
+# export to excel workbook
 
-write_csv(master, fn1)
-write_csv(pump.chart, fn2)
-write_csv(oil.chart, fn3)
-write_csv(eu.rank.p, fn4)
-write_csv(eu.rank.d, fn5)
+# create new workbook
+wb <- loadWorkbook(paste0(data.folder, "RACF Fuel factsheet",  Sys.Date()-1, 
+                          ".xlsx"), create = TRUE)
 
+setStyleAction(wb, XLC$"STYLE_ACTION.DATATYPE")
+cs <- createCellStyle(wb)
+setDataFormat(cs, format = "yyyy-mm-dd")
+setCellStyleForType(wb, style = cs, type = XLC$"DATA_TYPE.DATETIME")
+
+# Save master data table 
+createSheet(wb, name = "master")
+writeWorksheet(wb, master, sheet = "master")
+setColumnWidth(wb, sheet = "master", column = 2:3, width = -1)
+
+# Save pump chart data table 
+createSheet(wb, name = "pump.chart")
+writeWorksheet(wb, pump.chart, sheet = "pump.chart")
+setColumnWidth(wb, sheet = "pump.chart", column = 1:3, width = -1)
+
+# Save master data table 
+createSheet(wb, name = "oil.chart")
+writeWorksheet(wb, oil.chart, sheet = "oil.chart")
+setColumnWidth(wb, sheet = "oil.chart", column = 1:3, width = -1)
+
+# Save master data table 
+createSheet(wb, name = "eu.rank.p")
+writeWorksheet(wb, eu.rank.p, sheet = "eu.rank.p")
+setColumnWidth(wb, sheet = "eu.rank.p", column = 1:3, width = -1)
+
+# Save master data table 
+createSheet(wb, name = "eu.rank.d")
+writeWorksheet(wb, eu.rank.d, sheet = "eu.rank.d")
+setColumnWidth(wb, sheet = "eu.rank.d", column = 1:3, width = -1)
+
+saveWorkbook(wb)
+
+attachments <- wb@filename
+
+# # export to 5 csv files
+# 
+# fn1 <- paste0(data.folder, "RACF Fuel factsheet",  Sys.Date()-1, "-master.csv")
+# fn2 <- paste0(data.folder, "RACF Fuel factsheet",  Sys.Date()-1, "-pump.chart.csv")
+# fn3 <- paste0(data.folder, "RACF Fuel factsheet", Sys.Date()-1, "-oil.chart.csv")
+# fn4 <- paste0(data.folder, "RACF Fuel factsheet", Sys.Date()-1, "-eu.rank.p.csv")
+# fn5 <- paste0(data.folder, "RACF Fuel factsheet", Sys.Date()-1, "-eu.rank.d.csv")
+# attachments  <- c(fn1, fn2, fn3, fn4, fn5) 
+# 
+# write_csv(master, fn1)
+# write_csv(pump.chart, fn2)
+# write_csv(oil.chart, fn3)
+# write_csv(eu.rank.p, fn4)
+# write_csv(eu.rank.d, fn5)
 
 # =========================================================================== #
 # test                                                                        #

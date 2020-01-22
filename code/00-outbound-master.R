@@ -24,7 +24,7 @@
 
 work.computer <- FALSE
 work.data.folder <- "data/processed"
-non.work.data.folder <- ""
+non.work.data.folder <- "data/processed"
 sender.email <- "bhavin.makwana@racfoundation.org"
 password <- "XXX"
 

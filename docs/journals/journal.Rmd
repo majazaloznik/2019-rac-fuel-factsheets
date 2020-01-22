@@ -337,6 +337,37 @@ OK: unit testing reading.
 
 7. OK, now all should work i think. All tests have to pass to complete next step. But there is no test for email right now. 
 
+# Wednesday 22.1.2020
+
+1. Ah, of course, let's put it all into a single excel file instead, individual worksheets, that'll be nice. 
+
+2. This works great, but would be nice to be able to set the column width as well. OK
+
+3. Now make sure the date formats are ok, OK.
+
+4. Ah, there's now the issue of precision in 2 dec. places, i should probably make sure there are alyways 2. 
+
+5. Quesiton: should the master worksheet be split up into subtables, one for each frame in the factsheet. 
+
+6. Question: should they have a first row header or sth? Was that the point of the template? Surely not. 
+
+7. Let's add the £ to the last two tables, and ask about the master table, should the units be there, would that make it easier for the designers. 
+
+8. OK, looks good. Commit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Appendix  - make file
