@@ -355,17 +355,9 @@ OK: unit testing reading.
 
 8. OK, looks good. Commit
 
+9. Now go through the original code to see if there are any special tests i might want to include that i haven't. 
 
-
-
-
-
-
-
-
-
-
-
+10. Oh, the NAs of course, first those. OK, added the tests for NAs. Commit. 
 
 
 

@@ -7,18 +7,21 @@
 #                                                                             #
 # =========================================================================== #
 
-
 # =========================================================================== #
 #                                INSTRUCTIONS                                 #
 # =========================================================================== #
 #                                                                             #
-#             If you are running this script from a non-work computer         #
-#                  change logical value below to FALSE                        #
-#              and enter your data folder, email and password                 #
+#   1.  If you are running this script from your work computer                #
+#       make sure the logical value below is set to TRUE                      #
+#       and make sure your  your data folder is correct                       #
 #                                                                             #
-#                         Then source this file.                              #
+#   2.  If you are running this script from a non-work computer               #
+#       change logical value below to FALSE                                   #
+#       and enter your data folder, email and password                        #              
 #                                                                             #
-#                Check output in console for any issues.                      #
+#   3.  Then source this file.                                                #
+#                                                                             #
+#   4.  Check output in console for any issues.                               #
 #                                                                             #
 # =========================================================================== #
 

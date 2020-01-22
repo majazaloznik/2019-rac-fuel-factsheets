@@ -35,78 +35,98 @@ expect_true(exists("basil") & ifelse(exists("basil"),
 
 # check pump prices --------------------------------------------------------- #
 
-expect_equal(ncol(pump.prices), 3, 
-             info = "There should be exactly 3 columns in pump.prices.")
-expect_true(nrow(pump.prices) > 250 , 
-            info = "There should be over 250 rows in pump.prices.")
-expect_true(inherits(pump.prices$Date, "Date"), 
-            info = "The first column in pump.prices should be in date format.")
-expect_true(is.numeric(pump.prices$Petrol), 
-            info = "The petrol price column in pump.prices should be numeric.")
-expect_true(is.numeric(pump.prices$Diesel), 
-            info = "The diesel price column in pump.prices should be numeric.")
-
+if(exists("pump.prices")) {
+  expect_equal(sum(sapply(pump.prices, function(x) sum(is.na(x)))), 0,
+               info = "The pump price table has missing values")
+  expect_equal(ncol(pump.prices), 3, 
+               info = "There should be exactly 3 columns in pump.prices.")
+  expect_true(nrow(pump.prices) > 250 , 
+              info = "There should be over 250 rows in pump.prices.")
+  expect_true(inherits(pump.prices$Date, "Date"), 
+              info = "The first column in pump.prices should be in date format.")
+  expect_true(is.numeric(pump.prices$Petrol), 
+              info = "The petrol price column in pump.prices should be numeric.")
+  expect_true(is.numeric(pump.prices$Diesel), 
+              info = "The diesel price column in pump.prices should be numeric.")
+}
 
 # check oil prices ---------------------------------------------------------- #
-
-expect_equal(ncol(oil.prices), 4, 
-             info = "There should be exactly 4 columns in oil.prices")
-expect_true(nrow(oil.prices) > 250 , 
-            info = "There should be over 250 rows in oil.prices")
-expect_true(inherits(oil.prices$Date, "Date"), 
-            info = "The first column in oil.prices should be in date format.")
-expect_true(all(sapply(select(oil.prices, -Date),function(x) is.numeric(x))),
-            info = paste("The non-date columns in the oil prices table",
-                         "should be in numeric format,"))
+if(exists("oil.prices")) {
+  expect_equal(sum(sapply(oil.prices, function(x) sum(is.na(x)))), 0,
+               info = "The oil price table has missing values")
+  expect_equal(ncol(oil.prices), 4, 
+               info = "There should be exactly 4 columns in oil.prices")
+  expect_true(nrow(oil.prices) > 250 , 
+              info = "There should be over 250 rows in oil.prices")
+  expect_true(inherits(oil.prices$Date, "Date"), 
+              info = "The first column in oil.prices should be in date format.")
+  expect_true(all(sapply(select(oil.prices, -Date),function(x) is.numeric(x))),
+              info = paste("The non-date columns in the oil prices table",
+                           "should be in numeric format,"))
+}
 
 # check taxes table --------------------------------------------------------- #
 
-expect_equal(ncol(taxes), 7, 
-             info = "There should be exactly 7 columns in the VAT/duty table.")
-expect_true(inherits(taxes$Date, "Date"), 
-            info = paste("The first column in the VAT/duty table",
-            "should be in date forma."))
-expect_true(all(sapply(select(taxes, -Date),function(x) is.numeric(x))),
-            info = paste("The non-date columns in the VAT/duty table",
-                         "should be in numeric format,"))
+if(exists("taxes")) {
+  expect_equal(sum(sapply(taxes, function(x) sum(is.na(x)))), 0,
+               info = "The taxes table has missing values")
+  expect_equal(ncol(taxes), 7, 
+               info = "There should be exactly 7 columns in the VAT/duty table.")
+  expect_true(inherits(taxes$Date, "Date"), 
+              info = paste("The first column in the VAT/duty table",
+                           "should be in date forma."))
+  expect_true(all(sapply(select(taxes, -Date),function(x) is.numeric(x))),
+              info = paste("The non-date columns in the VAT/duty table",
+                           "should be in numeric format,"))
+}
 
 # check eu comparison tables ------------------------------------------------ #
 
-expect_equal(ncol(eu.p), 3, 
-             info = "There should be exactly 3 columns in the EU petrol price table.")
-expect_equal(ncol(eu.d), 3, 
-             info = "There should be exactly 3 columns in the EU diesel price table.")
-expect_true(is.numeric(eu.p$retail.p),
-            info = paste("The EU petrol price column should be in numeric format."))
-expect_true(is.numeric(eu.d$retail.d),
-            info = paste("The EU diesel price column should be in numeric format."))
-expect_equal(nrow(eu.p), 28, 
-             info = "There should be exactly 28 rows in the EU petrol price table.")
-expect_equal(nrow(eu.d), 28, 
-             info = "There should be exactly 28 rows in the EU diesel price table.")
+if(exists("eu.p")) {
+  expect_equal(sum(sapply(eu.p, function(x) sum(is.na(x)))), 0,
+               info = "The eu petrol table has missing values")
+  expect_equal(ncol(eu.p), 3, 
+               info = "There should be exactly 3 columns in the EU petrol price table.")
+  expect_equal(ncol(eu.d), 3, 
+               info = "There should be exactly 3 columns in the EU diesel price table.")
+  expect_true(is.numeric(eu.p$retail.p),
+              info = paste("The EU petrol price column should be in numeric format."))
+  expect_true(is.numeric(eu.d$retail.d),
+              info = paste("The EU diesel price column should be in numeric format."))
+  expect_equal(nrow(eu.p), 28, 
+               info = "There should be exactly 28 rows in the EU petrol price table.")
+  expect_equal(nrow(eu.d), 28, 
+               info = "There should be exactly 28 rows in the EU diesel price table.")
+}
 
 # check pre-tax eu comparison tables ---------------------------------------- #
 
-expect_equal(ncol(eu.pre.t.p), 4, 
-             info = "There should be exactly 4 columns in the EU pretax petrol table.")
-expect_equal(ncol(eu.pre.t.d), 4, 
-             info = "There should be exactly 4 columns in the EU pretax diesel table.")
-expect_equal(nrow(eu.pre.t.p), 28, 
-             info = "There should be exactly 28 rows in the EU pretax petroltable.")
-expect_equal(nrow(eu.pre.t.d), 28, 
-             info = "There should be exactly 28 rows in the EU pretax diesel table.")
-
-
+if(exists("eu.d")) {
+  expect_equal(sum(sapply(eu.d, function(x) sum(is.na(x)))), 0,
+               info = "The eu diesel table has missing values")
+  expect_equal(ncol(eu.pre.t.p), 4, 
+               info = "There should be exactly 4 columns in the EU pretax petrol table.")
+  expect_equal(ncol(eu.pre.t.d), 4, 
+               info = "There should be exactly 4 columns in the EU pretax diesel table.")
+  expect_equal(nrow(eu.pre.t.p), 28, 
+               info = "There should be exactly 28 rows in the EU pretax petroltable.")
+  expect_equal(nrow(eu.pre.t.d), 28, 
+               info = "There should be exactly 28 rows in the EU pretax diesel table.")
+}
+  
 # check basil data ---------------------------------------------------------- #
 
-expect_equal(ncol(basil), 11, 
-             info = "There should be exactly 11 columns in the basil data")
-expect_true(nrow(basil) > 250 , 
-            info = "There should be over 250 rows in the basil data")
-expect_true(inherits(basil$Date, "Date"), 
-            info = "The first column in basil should be in date format.")
-expect_true(all(sapply(select(oil.prices, -Date),function(x) is.numeric(x))),
+if(exists("basil")) {
+  expect_equal(sum(sapply(basil, function(x) sum(is.na(x)))), 0,
+               info = "The basil table has missing values")
+  expect_equal(ncol(basil), 11, 
+               info = "There should be exactly 11 columns in the basil data")
+  expect_true(nrow(basil) > 250 , 
+              info = "There should be over 250 rows in the basil data")
+  expect_true(inherits(basil$Date, "Date"), 
+              info = "The first column in basil should be in date format.")
+  expect_true(all(sapply(select(oil.prices, -Date),function(x) is.numeric(x))),
             info = paste("The non-date columns in the basil table",
                          "should be in numeric format,"))
-
+}
 
