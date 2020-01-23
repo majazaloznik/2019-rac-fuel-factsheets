@@ -20,6 +20,7 @@ Please find attached the data for this week's fuel factsheet.
 
 Please note that this email has been sent via an automated script.
 "
+on.exit(writeLines("Email script completed.\n\nWhole factsheet script completed. "))
 
 # --------------------------------------------------------------------------- #
 # email using outlook ------------------------------------------------------- #
@@ -62,3 +63,4 @@ if (!work.computer) {
                      send = TRUE,
                      attach.files = attachments)
 }
+

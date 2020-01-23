@@ -359,6 +359,44 @@ OK: unit testing reading.
 
 10. Oh, the NAs of course, first those. OK, added the tests for NAs. Commit. 
 
+# Thursday 23.1.2020
+
+1. Now I need to set up a test googledoc, in order to test errors out a bit. 
+
+2. setting up the test google sheet was trickier than i thought, first had to save individual sheets to csvs to then copy paste to a new sheet, because the array formulas and premissions were the reason it was probably impossible otherwise. 
+
+3. Then there were errors erigistring the spreadsheet or reading individual sheets if the gs wasn't set to both publish and share. This was explained [here](https://github.com/jennybc/googlesheets/issues/212). Works now. i think. 
+
+4. `writeLines()` is better than `print()` (and `cat()`) because print only shows you the string object representation in R, not the actual object. e.g. rounds decimals etc. so it also ignores "\\n". but `cat()` and `writeLines()` don't. And the latter also doesn't require a trailing "\\", so that's what you want. 
+
+5. So now need to change all the prints to writeLines. 
+
+6. OK, now test:
+
+* #div/0, OK.
+* empty cell? OK
+* character in numeric column. See 7. OK
+* missing column. OK
+
+7. OK, so coercing the columns to be numeric means a character gets changed to NA, and fails the test. That's what I want. I just supress the warning from the coercion, to make it look prettier. 
+
+8. Finally, let's look through some of the other tests in the original script. 
+
+9. What happens if the tests of the calculations fail, but we want them to. e.g. if the difference betewen petrol and diesel actually becomes 10ppl. You presumably want to have the ability to override the failed test? I mean these are all sanity checks, but sometimes insane things happen, how do you wnat to handle that? OK, added prompt. 
+
+10: I am currently taking the vat and fuel duty data from the fuel data table, usign the most recent row, but that's actually from Jan 2019.
+
+11. Add test to make sure there is one year's worth of data in the fuel and pump price tables. ok
+
+12. Add test for oil prices being in reasonable range.
+
+13. I think that's all the testing and the flow done. 
+
+14. Commmit. 
+
+15. Check: I think the original script only checked the usd oil price for sanity, what's the gbp sanity check? Or is that caclulated from the exchange rate anyway?
+
+
 
 
 

@@ -3,16 +3,16 @@
 # =========================================================================== #
 
 # check the date is yesterday ----------------------------------------------- #
- expect_true(Sys.Date() - 1 == date, 
+expect_true(Sys.Date() - 1 == date, 
             info = "The data is not from yesterday")
 
 #checks fuel prices are no more than 10ppl apart ---------------------------- #
-expect_true(current.pr.p - current.pr.d < 10, 
+expect_true(abs(current.pr.p - current.pr.d) < 10, 
             info = "Diesel and petrol prices are more than 10ppl apart.")
 
 #checks prices are lower than all time high --------------------------------- #
 expect_true(current.pr.p < 142, 
-            info = "Petro price is higher than all time high.")
+            info = "Petrol price is higher than all time high.")
 expect_true(current.pr.d < 148, 
             info = "Diesel price is higher than all time high.")
 
@@ -28,7 +28,8 @@ expect_true(abs(lw.dif.pr.p) < 5,
 expect_true(abs(lw.dif.pr.d) < 5, 
             info = "Diesel prices changed by more than 5p in a week, is that right?")
 
-
-
+#checks oil prices are in sensible range ------------------------------------ #
+expect_true(between(current.usd.b, 20, 142),
+            info = "Oil price is outside the range of 20 to 143c, is that right?.")
 
 

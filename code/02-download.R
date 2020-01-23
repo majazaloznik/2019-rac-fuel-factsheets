@@ -5,10 +5,18 @@
 # Download ------------------------------------------------------------------ #
 
 # register googlesheet
+# gs.real <- gs_url(paste0("https://docs.google.com/spreadsheets/d/",
+#                      "1sj_T9S2AkFYMrDZqL4ZQfUJTWeQEPCIKqlGS7kJOZ2A/",
+#                      "edit#gid=1319741025"), 
+#               lookup = FALSE, visibility = NULL, verbose = FALSE)
+
+# test google sheet. 
 gs <- gs_url(paste0("https://docs.google.com/spreadsheets/d/",
-                     "1sj_T9S2AkFYMrDZqL4ZQfUJTWeQEPCIKqlGS7kJOZ2A/",
-                     "edit#gid=1319741025"), 
-              lookup = FALSE, visibility = NULL, verbose = FALSE)
+                    "1-pBRy5IcBpMuZmf-2zzmSNM-0hWPyd4HGPrd-JbFZQw/edit#gid=0"), 
+             lookup = FALSE, visibility = NULL, verbose = FALSE)
+
+
+
 
 # Download data and assign -------------------------------------------------- #
 
@@ -68,11 +76,11 @@ Fun.gs.clean <- function(df) {
   as.data.frame(df)
 }
 
-# correctcolumn types as well
+# correct column types as well
 Fun.col.types <- function(df){
   df$Date <- as.Date(df$Date, "%d/%m/%Y")
   df <- lapply(df, function(x) 
-    if(is.character(x)) as.numeric(x) else x)
+    if(is.character(x)) suppressWarnings(as.numeric(x)) else x)
   as.data.frame(df)
 }
 
