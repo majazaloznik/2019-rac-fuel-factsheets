@@ -139,12 +139,7 @@ The deliverable is a script/repo/package that does the following:
 
 10. OK, so let's just import the raw tables that are necessary for all the other calculations. That means: 
 
-* `pump.prices` which is the last years worth of petrol and diesel prices. 
-* `oil.prices`, same for oil
-* `basil`, which is some other raw data we need
-* `taxes`, which lists duty  and VAT levels
-* `eu.compare` which lists the pump price ranking of all eu countries
-
+ 
 All the other variables etc. we will calculate in the script, not import them from the googlesheet. 
 
 11. The fuel prediciton is not derived in the sheet, but somewhere else i gather. But i also don't see it on the factsheets, so i'm ignoring it for now. 
@@ -396,6 +391,15 @@ OK: unit testing reading.
 
 15. Check: I think the original script only checked the usd oil price for sanity, what's the gbp sanity check? Or is that caclulated from the exchange rate anyway?
 
+16. Nice, using this solution [here](https://stackoverflow.com/questions/14469522/stop-an-r-program-without-error) to stop quietly if exiting script because of sanity checks. 
+
+17. Next step: write instructions and queries. 
+
+# Friday 24.1.2020
+
+1. write up testing instructions. 
+
+2. Hm, `library(RDCOMClient) : there is no package called 'RDCOMClient'` is an error i'm getting, obviously i should test that it is installed properly for them. ok
 
 
 

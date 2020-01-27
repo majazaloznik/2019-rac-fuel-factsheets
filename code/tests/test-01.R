@@ -13,6 +13,9 @@ expect_true("RCurl" %in% (.packages()),
             info = "The RCurl package did not load properly.")
 expect_true("dplyr" %in% (.packages()), 
             info = "The dplyr package did not load properly.")
+if(.Platform$OS.type != "unix") {expect_true("RDCOMClient" %in% (.packages()), 
+                                             info = "The RDCOMClient package did not load properly.")}
+
 # sexpect_true("xdsf" %in% (.packages()), info = "The xdfs package did not load properly")
 
 # test correct working directory - doesn't work - https://github.com/markvanderloo/tinytest/issues/45

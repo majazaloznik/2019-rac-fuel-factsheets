@@ -12,7 +12,7 @@ suppressPackageStartupMessages(library(RCurl))
 suppressPackageStartupMessages(library(dplyr))
 suppressPackageStartupMessages(library(lubridate))
 suppressPackageStartupMessages(library(readr))
-
+if(.Platform$OS.type != "unix") {suppressPackageStartupMessages(library(RDCOMClient))}
 options(stringsAsFactors=FALSE)
 
 # Functions ----------------------------------------------------------------- #

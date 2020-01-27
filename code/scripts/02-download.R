@@ -4,13 +4,14 @@
 
 # Download ------------------------------------------------------------------ #
 
+# actual google sheet. uncomment when done testing
 # register googlesheet
-# gs.real <- gs_url(paste0("https://docs.google.com/spreadsheets/d/",
+# gs<- gs_url(paste0("https://docs.google.com/spreadsheets/d/",
 #                      "1sj_T9S2AkFYMrDZqL4ZQfUJTWeQEPCIKqlGS7kJOZ2A/",
 #                      "edit#gid=1319741025"), 
 #               lookup = FALSE, visibility = NULL, verbose = FALSE)
 
-# test google sheet. 
+# test google sheet. comment when you switch back to actual google sheet
 gs <- gs_url(paste0("https://docs.google.com/spreadsheets/d/",
                     "1-pBRy5IcBpMuZmf-2zzmSNM-0hWPyd4HGPrd-JbFZQw/edit#gid=0"), 
              lookup = FALSE, visibility = NULL, verbose = FALSE)

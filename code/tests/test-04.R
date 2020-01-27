@@ -9,6 +9,7 @@ expect_equal(nrow(master), 66,
 expect_true(nrow(pump.prices) > 250, 
              info = paste("There should be more than 250 rows in the pump price,",
                           " table but there are", nrow(eu.rank.d), "instead."))
+
 expect_true(nrow(oil.prices) > 250, 
              info = paste("There should be more than 250 rows in the oil price,",
                           "table but there are", nrow(eu.rank.d), "instead."))
