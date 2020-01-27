@@ -65,7 +65,7 @@ lw.text.pr.d <- ifelse(lw.dif.pr.d > 0,
 # 6 petrol price = same as 2
 
 # 7 vat paid
-vat.rate.p <- last(taxes$Petrol.VAT)
+vat.rate.p <- vat
 
 vat.paid.p <- current.pr.p * vat.rate.p / (100 + vat.rate.p)
 
@@ -73,7 +73,7 @@ vat.paid.p <- current.pr.p * vat.rate.p / (100 + vat.rate.p)
 vat.prop.p <- 100 * vat.rate.p / (100 + vat.rate.p)
 
 # 9 fuel duty paid
-duty.paid.p <- last(taxes$Petrol.Duty)
+duty.paid.p <- duty
 
 # 10 fueld duty as prop of price
 duty.prop.p <- 100 * duty.paid.p / (current.pr.p)
@@ -90,14 +90,14 @@ tax.prop.p <- 100 - non.tax.prop.p
 # 14 diesel price = same as 4
 
 # 15 vat paid
-vat.rate.d <- last(taxes$Diesel.VAT)
+vat.rate.d <- vat
 vat.paid.d <- current.pr.d * vat.rate.d / (100 + vat.rate.d)
 
 # 16 vat as prop of price
 vat.prop.d <- 100 * vat.rate.d / (100 + vat.rate.d)
 
 # 17 fuel duty paid
-duty.paid.d <- last(taxes$Diesel.Duty)
+duty.paid.d <- duty
 
 # 18 fueld duty as prop of price
 duty.prop.d <- 100 * duty.paid.d / (current.pr.d)
@@ -481,5 +481,5 @@ eu.d %>%
 # test                                                                        #
 # =========================================================================== #
 
-test03 <- run_test_file(here::here("code/tests/test-03.R"))
+test03 <- run_test_file("code/tests/test-03.R")
 

@@ -238,7 +238,7 @@ tab04 %>%
 
 # 33 12-month diesel low as text for chart
 tab04 %>% 
-  bind_rows(list(id = 23, 
+  bind_rows(list(id = 33, 
                  description = "12 month petrol low price (text)", 
                  value = as.character(year.min.text.p))) -> tab04
 
@@ -518,15 +518,14 @@ bind_rows(tab01,
 # create data folder if needed
 working.year <- format(Sys.Date(), "%Y")
 
-data.folder <- if(work.computer) {paste0(work.data.folder,"/", working.year, "/")
-} else{ paste0(non.work.data.folder,"/", working.year, "/")}
+data.folder <- file.path(data.folder, working.year)
 
-suppressWarnings(dir.create(data.folder))
+suppressWarnings(dir.create(data.folder, recursive = TRUE))
 
 # export to excel workbook
 
 # create new workbook
-wb <- loadWorkbook(paste0(data.folder, "RACF Fuel factsheet",  Sys.Date()-1, 
+wb <- loadWorkbook(paste0(data.folder, "/RACF Fuel factsheet",  Sys.Date()-1, 
                           ".xlsx"), create = TRUE)
 
 setStyleAction(wb, XLC$"STYLE_ACTION.DATATYPE")
@@ -563,24 +562,10 @@ saveWorkbook(wb)
 
 attachments <- wb@filename
 
-# # export to 5 csv files
-# 
-# fn1 <- paste0(data.folder, "RACF Fuel factsheet",  Sys.Date()-1, "-master.csv")
-# fn2 <- paste0(data.folder, "RACF Fuel factsheet",  Sys.Date()-1, "-pump.chart.csv")
-# fn3 <- paste0(data.folder, "RACF Fuel factsheet", Sys.Date()-1, "-oil.chart.csv")
-# fn4 <- paste0(data.folder, "RACF Fuel factsheet", Sys.Date()-1, "-eu.rank.p.csv")
-# fn5 <- paste0(data.folder, "RACF Fuel factsheet", Sys.Date()-1, "-eu.rank.d.csv")
-# attachments  <- c(fn1, fn2, fn3, fn4, fn5) 
-# 
-# write_csv(master, fn1)
-# write_csv(pump.chart, fn2)
-# write_csv(oil.chart, fn3)
-# write_csv(eu.rank.p, fn4)
-# write_csv(eu.rank.d, fn5)
 
 # =========================================================================== #
 # test                                                                        #
 # =========================================================================== #
 
-test04 <- run_test_file(here::here("code/tests/test-04.R"))
+test04 <- run_test_file("code/tests/test-04.R")
 

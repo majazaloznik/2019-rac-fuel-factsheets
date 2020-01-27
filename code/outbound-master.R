@@ -12,24 +12,42 @@
 # =========================================================================== #
 #                                                                             #
 #   1.  If you are running this script from your work computer                #
-#       make sure the logical value below is set to TRUE                      #
-#       and make sure your  your data folder is correct"                      #
+#       make sure the logical value work.computer below is set to TRUE        #
 #                                                                             #
 #   2.  If you are running this script from a non-work computer               #
 #       change the logical value below to FALSE                               #
-#       and enter your data folder, email and password                        #              
+#       and enter your email and password.                                    #              
 #                                                                             #
 #   3.  Then source this file.                                                #
 #                                                                             #
-#   4.  Check output in console for any issues.                               #
+#   4.  Check output in the console for any issues.                           #
+#                                                                             #
+#   5.  The output Excel file is in the data folder.                          #
 #                                                                             #
 # =========================================================================== #
 
+# =========================================================================== #
+# setup if not on work PC                                                     #
+# =========================================================================== #
 work.computer <- TRUE
-work.data.folder <- "data/processed"
-non.work.data.folder <- "data/processed"
 sender.email <- "bhavin.makwana@racfoundation.org"
 password <- "XXX"
+data.folder <- "data/processed"
+
+# =========================================================================== #
+# constants which might change 
+# =========================================================================== #
+# all time high petrol price
+max.p <- 142
+# all time high diesel price
+max.d <- 148
+# all time high oil price (usd)
+max.usd.b <- 142
+# vat
+vat <- 20
+# fuel duty
+duty <- 57.95
+# =========================================================================== #
 
 # =========================================================================== #
 # 1. Preliminaries                                                            #

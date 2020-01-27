@@ -1,8 +1,6 @@
 # test packages are all loaded correclty. 
 expect_true("tinytest" %in% (.packages()), 
             info = "The tinytest package did not load properly.") # meta B)
-expect_true("here" %in% (.packages()), 
-            info = "The here package did not load properly.")
 expect_true("XLConnect" %in% (.packages()), 
             info = "The XLConnect package did not load properly.")
 expect_true("mailR" %in% (.packages()), 
@@ -13,6 +11,8 @@ expect_true("RCurl" %in% (.packages()),
             info = "The RCurl package did not load properly.")
 expect_true("dplyr" %in% (.packages()), 
             info = "The dplyr package did not load properly.")
+expect_true("rstudioapi" %in% (.packages()), 
+            info = "The rstudioapi package did not load properly.")
 if(.Platform$OS.type != "unix") {expect_true("RDCOMClient" %in% (.packages()), 
                                              info = "The RDCOMClient package did not load properly.")}
 
@@ -23,5 +23,5 @@ if(.Platform$OS.type != "unix") {expect_true("RDCOMClient" %in% (.packages()),
 
 # test it isn't a Monday
 Sys.setlocale("LC_TIME", "C")
-expect_false(weekdays(Sys.Date()) == "Monday",
-             info = "You shouldn't be preparing the factsheet on a Monday!")
+# expect_false(weekdays(Sys.Date()) == "Monday",
+#              info = "You shouldn't be preparing the factsheet on a Monday!")

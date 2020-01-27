@@ -401,6 +401,25 @@ OK: unit testing reading.
 
 2. Hm, `library(RDCOMClient) : there is no package called 'RDCOMClient'` is an error i'm getting, obviously i should test that it is installed properly for them. ok
 
+3. I reorganized the folder structure and all. commit. 
+
+# Monday 27.1.2020
+
+1. commit now actually. 
+
+2. OK, now need to figure out the testing flow. Is this a repo, is it just a folder. Where do they put it, where does the data go. What is the working directory. Ivo just wanted a script, not a repo. But i've already got a folder structure.. 
+
+3. I'll set up automatic setting up of wd. And remove here::here, not needed. 
+
+4. NB: before send, check you're testing monday and emailing. And folder name. 
+
+5. Damn, what about windows/mac. creating folders and such, does that work cross-platform like this? One option is to use `fs` package, which is a tidy version of file manipulation commands that should work cross platform. 
+
+6. Nah, even better trick (doens't require another package) is to use `filepath()`, which creates a path from individual folders regardless of your platform. 
+
+7. I should throw out 04-test, it's redundant, isn't it?
+
+8. Finished notes and queries. Commit and send to Ivo. Maybe just send tomorrow. when it's not a monday and Ivo will be back already. Maybe. 
 
 
 

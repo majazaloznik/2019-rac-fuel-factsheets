@@ -60,14 +60,6 @@ eu.pre.t.d <- gs_read(gs, ws="UK vs EU Fuel", "F46:I73",
                                     "country"),
                       verbose = FALSE)
 
-# raw basil data - for reference
-basil <- gs_read(gs, ws="basil data","B1:L260", verbose = FALSE)
-
-# duty and vat numbers -raw
-suppressWarnings(
-  suppressMessages(
-    taxes <- gs_read(gs, ws="Fuel Data", verbose = FALSE)))
-
 # Functions ----------------------------------------------------------------- #
 
 # Helper function cleaning out any googlesheet remnants such as #DIV/0 or 
@@ -93,14 +85,10 @@ eu.p <- Fun.gs.clean(eu.p)
 eu.d <- Fun.gs.clean(eu.d)
 eu.pre.t.p <- Fun.gs.clean(eu.pre.t.p)
 eu.pre.t.d <- Fun.gs.clean(eu.pre.t.d)
-taxes <- Fun.gs.clean(taxes)
-basil <- Fun.gs.clean(basil)
 
 #  and fix column types
 pump.prices <- Fun.col.types(pump.prices)
 oil.prices <- Fun.col.types(oil.prices)
-taxes <- Fun.col.types(taxes)
-basil <- Fun.col.types(basil)
 
 # clean currency symbols
 eu.p$retail.p <- as.numeric(gsub("\\£", "", eu.p$retail.p))
@@ -113,5 +101,5 @@ eu.pre.t.d$tax.perc <- as.numeric(gsub("\\£", "", eu.pre.t.d$tax.perc))
 # test                                                                        #
 # =========================================================================== #
 
-test02 <- run_test_file(here::here("code/tests/test-02.R"))
+test02 <- run_test_file("code/tests/test-02.R")
 

@@ -26,9 +26,6 @@ expect_true(exists("eu.pre.t.p") & ifelse(exists("eu.pre.t.p"),
 expect_true(exists("eu.pre.t.d") & ifelse(exists("eu.pre.t.d"),
                                     is.data.frame(eu.pre.t.d), FALSE),
             info = "EU pre-tax diesel comparison table does not exist")
-expect_true(exists("taxes") & ifelse(exists("taxes"),
-                                          is.data.frame(taxes), FALSE),
-            info = "Taxes table does not exist")
 expect_true(exists("basil") & ifelse(exists("basil"),
                                           is.data.frame(basil), FALSE),
             info = "Basil table does not exist")
@@ -71,20 +68,6 @@ if(exists("oil.prices")) {
                            "should be in numeric format,"))
 }
 
-# check taxes table --------------------------------------------------------- #
-
-if(exists("taxes")) {
-  expect_equal(sum(sapply(taxes, function(x) sum(is.na(x)))), 0,
-               info = "The taxes table has missing values")
-  expect_equal(ncol(taxes), 7, 
-               info = "There should be exactly 7 columns in the VAT/duty table.")
-  expect_true(inherits(taxes$Date, "Date"), 
-              info = paste("The first column in the VAT/duty table",
-                           "should be in date forma."))
-  expect_true(all(sapply(select(taxes, -Date),function(x) is.numeric(x))),
-              info = paste("The non-date columns in the VAT/duty table",
-                           "should be in numeric format,"))
-}
 
 # check eu comparison tables ------------------------------------------------ #
 
