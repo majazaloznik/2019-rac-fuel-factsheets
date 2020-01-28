@@ -415,13 +415,15 @@ OK: unit testing reading.
 
 5. Damn, what about windows/mac. creating folders and such, does that work cross-platform like this? One option is to use `fs` package, which is a tidy version of file manipulation commands that should work cross platform. 
 
-6. Nah, even better trick (doens't require another package) is to use `filepath()`, which creates a path from individual folders regardless of your platform. 
+6. Nah, even better trick (doesn't require another package) is to use `filepath()`, which creates a path from individual folders regardless of your platform. 
 
 7. I should throw out 04-test, it's redundant, isn't it?
 
 8. Finished notes and queries. Commit and send to Ivo. Maybe just send tomorrow. when it's not a monday and Ivo will be back already. Maybe. 
 
+# Tuesday 28.1.2020
 
+* actually i can throw out the data.folder alltogether, why give options, just stick with the default unless they ask for sth different. 
 
 # Appendix  - make file
 ```{r, echo = FALSE, out.width='100%', fig.caption = "This is what my makefile looks like graphically at the minute:"}

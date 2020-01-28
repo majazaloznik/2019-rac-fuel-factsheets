@@ -8,7 +8,21 @@ output:
 ---
 # Overview
 
-[Questions/querries are in the second part of this document.]
+[Questions/queries are in the second part of this document.]
+
+## Requirements
+
+```
+install.packages("tinytest",
+                 "XLConnect",
+                 "mailR",
+                 "googlesheets",
+                 "RCurl",
+                 "dplyr",
+                 "lubridate",
+                 "readr",
+                 "rstudioapi")
+```
 
 ## Outline
 
@@ -23,7 +37,7 @@ The `/code/` folder contains:
   + 5. send the email. 
 * `/tests/` - there are four test scripts in here, which are called from their respective scripts to test everything went OK in each one (except the email script doesn't have a test). 
 
-**The idea is that you place the `/code/` folder next to the `/data/` folder in `K://RESEARCH/Data/Fuel Factsheet/`**. 
+**The idea is that you place the `/code/` folder in `K://RESEARCH/Data/Fuel Factsheet/`**. Or wherever really. A /data/ folder will be created next to the /code/ folder if it doens't exist already. 
 
 ## Flow
 
@@ -34,7 +48,7 @@ There are two decision points in the flow:
 1. Whether or not the script is being run from a work computer or a remote computer. 
 2. Whether or not to proceed if sanity checks fail. 
 
-**ad 1. Work/home PC**: the first decision is dealt with manually in the `outbound-master.R` script by setting the logical flag `work.computer` to `TRUE/FALSE`, depending on your circumstance. Additionally, if you are not at work, you need to make sure the data folder, and email and password data are also entered correctly. **Right now they are not, because I don't have working credentials.**
+**ad 1. Work/home PC**: the first decision is dealt with manually in the `outbound-master.R` script by setting the logical flag `work.computer` to `TRUE/FALSE`, depending on your circumstance. Additionally, if you are not at work, you need to make sure your email and password data are also entered correctly. **Right now they are not, because I don't have working credentials.**
 
 **ad 2. Insanity checks**: The second decision happens during the script execution. All other tests--if they fail--stop the script. But if the sanity checks fail e.g. the petrol price went up by more than 5p in a week, you get the option to either stop the script or continue it anyway. Because insane things happen sometimes. 
 
@@ -46,11 +60,11 @@ During testing of this script keep in mind the following:
 2. You are not using on the real googlesheet. 
 3. I wasn't able to test the emailing script. 
 
-**ad 1. working directory**: the `/code/` folder with the scripts should be at the same level as the `/data/` folder (otherwise a  new `data` folder will be created). The script will then automatically set the working directory once it is sourced (to the folder that contains both of these). Even if the /data/ folder does not exist, it will create it. This I believe, only works if you use RStudio. If that is a problem, we can find another solution where you manually do `setwd()` or sth. 
+**ad 1. working directory**: the `/code/` folder with the scripts should be at the same level as the `/data/` folder (otherwise a new `data` folder will be created). The script will then automatically set the working directory once it is sourced (to the folder that contains both of these). Even if the /data/ folder does not exist, it will create it. This I believe, only works if you use RStudio. If that is a problem, we can find another solution where you manually do `setwd()` or sth. 
 
 **ad 2. The test googlesheet**: at the moment the data is being pulled from a test googlesheet, not the actual one. The reason for this is so that the test googlesheet, which is found on [this link](https://docs.google.com/spreadsheets/d/1-pBRy5IcBpMuZmf-2zzmSNM-0hWPyd4HGPrd-JbFZQw/edit?usp=sharing), can be manipulated to cause tests to fail and test the script. 
 
-The test googlesheet contains the four sheets required to perform the script, as they appeared in the googlesheet from 22.1.2020. This means one of the tests that will fail is the one to test if the data is from yesterday. Because this is just a sanity test, you can proceed anyway, and this also shows you how sanity tests work. 
+The test googlesheet contains the four sheets required to perform the script, as they appeared in the googlesheet from 28.1.2020 (i.e. the data is for 27.1.). This means that after today one of the tests that will fail is the one to test if the data is from yesterday. Because this is just a sanity test, you can proceed anyway, and this also shows you how sanity tests work. (You can also change the date in the googlesheet: "Max/min fuel working" E2 is where it is taken from.). 
 
 If you don't want to play around with the test googlesheet you can switch to the real one by going into `/scripts/02-download.R` and comment out the test gs assignment in rows 15-17 while uncommenting the actual gs assignment in rows 9-12.
 
@@ -63,12 +77,11 @@ Either way, the script can be tested up until that point even if the email fails
 
 Overall what I've done is moved all possible calculations from the googlesheet to the script. This is cleaner and more robust. It also means I have removed a bunch of redundancy where a calculation was performed in the google sheet and then again in the script and the results were compared.. This sort of testing did not really serve any purpose, it is not clear what sort of error it is anticipating and what one would do if it occurred even. So none of this is happening any more. 
 
-I am therefore only importing data from the following four sheets from the googlesheet. They are listed here along with the numbered outputs they relate to. 
+I am therefore only importing data from the following three sheets from the googlesheet. They are listed here along with the numbered outputs they relate to. 
 
 * **Max/min fuel working**, "E1:G260": 2, 3, 6--13, 22--34, 50--67
 * **Oil Price**, "A2:D260": 4, 5, 14--21, 36--49, 
-* **UK vs EU Fuel**, "A46:I73": 68--69
-* **UK vs EU Fuel**, "A3:G30": 70--77
+* **UK vs EU Fuel**, "A46:I73 & A3:G30": 68--69, 70--77
 
 Current checks include:
 

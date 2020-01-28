@@ -32,7 +32,6 @@
 work.computer <- TRUE
 sender.email <- "bhavin.makwana@racfoundation.org"
 password <- "XXX"
-data.folder <- "data/processed"
 
 # =========================================================================== #
 # constants which might change 

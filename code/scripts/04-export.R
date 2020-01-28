@@ -518,7 +518,7 @@ bind_rows(tab01,
 # create data folder if needed
 working.year <- format(Sys.Date(), "%Y")
 
-data.folder <- file.path(data.folder, working.year)
+data.folder <- file.path("data", working.year)
 
 suppressWarnings(dir.create(data.folder, recursive = TRUE))
 

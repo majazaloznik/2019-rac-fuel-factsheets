@@ -26,9 +26,6 @@ expect_true(exists("eu.pre.t.p") & ifelse(exists("eu.pre.t.p"),
 expect_true(exists("eu.pre.t.d") & ifelse(exists("eu.pre.t.d"),
                                     is.data.frame(eu.pre.t.d), FALSE),
             info = "EU pre-tax diesel comparison table does not exist")
-expect_true(exists("basil") & ifelse(exists("basil"),
-                                          is.data.frame(basil), FALSE),
-            info = "Basil table does not exist")
 
 # check pump prices --------------------------------------------------------- #
 
@@ -103,19 +100,3 @@ if(exists("eu.d")) {
                info = "There should be exactly 28 rows in the EU pretax diesel table.")
 }
   
-# check basil data ---------------------------------------------------------- #
-
-if(exists("basil")) {
-  expect_equal(sum(sapply(basil, function(x) sum(is.na(x)))), 0,
-               info = "The basil table has missing values")
-  expect_equal(ncol(basil), 11, 
-               info = "There should be exactly 11 columns in the basil data")
-  expect_true(nrow(basil) > 250 , 
-              info = "There should be over 250 rows in the basil data")
-  expect_true(inherits(basil$Date, "Date"), 
-              info = "The first column in basil should be in date format.")
-  expect_true(all(sapply(select(oil.prices, -Date),function(x) is.numeric(x))),
-            info = paste("The non-date columns in the basil table",
-                         "should be in numeric format,"))
-}
-
