@@ -121,6 +121,6 @@ if (!exists("test04")) {
   } else {
     writeLines("The Export script did not run smoothly. See errors below:")
     writeLines(paste("->", sapply(test04, function(x) 
-      yattributes(x)$info)[!sapply(test04, isTRUE)]))
+      attributes(x)$info)[!sapply(test04, isTRUE)]))
   }
 }

@@ -2,7 +2,7 @@
 # TEST data export                                                            #
 # =========================================================================== #
 
-expect_equal(nrow(master), 66, 
+expect_equal(nrow(master), 48, 
              info = paste("There should be exactly 66 rows master edits table,",
                           "but there are", nrow(master), "instead."))
 

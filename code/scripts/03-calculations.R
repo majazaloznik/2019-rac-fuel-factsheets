@@ -7,16 +7,18 @@
 # --------------------------------------------------------------------------- #
 
 # 1 date 
-date <- pump.prices[1,1]
+date.calc <- pump.prices[1,1]
+date.print <- format(date.calc, "%d %B %Y")
+
 
 # 2 petrol price
 pump.prices %>% 
-  filter(Date == date) %>% 
+  filter(Date == date.calc) %>% 
   pull(Petrol) -> current.pr.p
 
 # price previous week  
 pump.prices %>% 
-  filter(Date >= date - 7) %>% 
+  filter(Date >= date.calc - 7) %>% 
   filter(row_number() == nrow(.)) %>% 
   pull(Petrol) -> last.week.pr.p
 
@@ -35,12 +37,12 @@ lw.text.pr.p <- ifelse(lw.dif.pr.p > 0,
 
 # 4 diesel price
 pump.prices %>% 
-  filter(Date == date) %>% 
+  filter(Date == date.calc) %>% 
   pull(Diesel) -> current.pr.d
 
 # price previous week  
 pump.prices %>% 
-  filter(Date >= date - 7) %>% 
+  filter(Date >= date.calc - 7) %>% 
   filter(row_number() == nrow(.)) %>% 
   pull(Diesel) -> last.week.pr.d
 
@@ -124,7 +126,7 @@ tank.d <- current.pr.d * 55 / 100
 
 # price previous month  
 pump.prices %>% 
-  filter(Date <= date %m-% months(1)) %>% 
+  filter(Date <= date.calc %m-% months(1)) %>% 
   filter(row_number() == 1) %>% 
   pull(Petrol) -> last.month.pr.p
 
@@ -133,7 +135,7 @@ tank.last.month.p <- last.month.pr.p * 55 / 100
 
 # price previous month  
 pump.prices %>% 
-  filter(Date <= date %m-% months(1)) %>% 
+  filter(Date <= date.calc %m-% months(1)) %>% 
   filter(row_number() == 1) %>% 
   pull(Diesel) -> last.month.pr.d
 
@@ -142,7 +144,7 @@ tank.last.month.d <- last.month.pr.d * 55 / 100
 
 # price six months ago  
 pump.prices %>% 
-  filter(Date <= (date) %m-% months(6)) %>% 
+  filter(Date <= (date.calc) %m-% months(6)) %>% 
   filter(row_number() == 1) %>% 
   pull(Petrol) -> six.month.pr.p
 
@@ -151,7 +153,7 @@ tank.six.month.p <- six.month.pr.p * 55 / 100
 
 # price six months ago  
 pump.prices %>% 
-  filter(Date <= (date) %m-% months(6)) %>% 
+  filter(Date <= (date.calc) %m-% months(6)) %>% 
   filter(row_number() == 1) %>% 
   pull(Diesel) -> six.month.pr.d
 
@@ -257,17 +259,17 @@ paste0("12 month low $", FunDec(year.min.b$Brent.USD, 2), "* ",
 
 # 39 current price of brent in usd
 oil.prices %>% 
-  filter(Date == date) %>% 
+  filter(Date == date.calc) %>% 
   pull(Brent.USD) -> current.usd.b
 
 # 40 current price of brent in gbp
 oil.prices %>% 
-  filter(Date == date) %>% 
+  filter(Date == date.calc) %>% 
   pull(Brent.GBP) -> current.gbp.b
 
 # price previous week  
 oil.prices %>% 
-  filter(Date >= date - 7) %>% 
+  filter(Date >= date.calc - 7) %>% 
   filter(row_number() == nrow(.)) %>% 
   pull(Brent.USD) -> last.week.pr.b
 
@@ -275,7 +277,7 @@ oil.prices %>%
 lw.dif.pr.b <- current.usd.b - last.week.pr.b
 
 # 41 change in brent price since previous week txt
-lw.text.pr.b <- ifelse(lw.dif.pr.b > 0, "Up ",
+lw.text.pr.b <- ifelse(lw.dif.pr.b > 0, "Up",
                        ifelse( lw.dif.pr.b < 0, 
                                "Down", "No change since last week"))
 
@@ -290,7 +292,7 @@ lw.arrow.pr.b <- ifelse(lw.dif.pr.b > 0, "^",
 
 # price previous month  
 oil.prices %>% 
-  filter(Date <= date %m-% months(1)) %>% 
+  filter(Date <= date.calc %m-% months(1)) %>% 
   filter(row_number() == 1) %>% 
   pull(Brent.USD) -> last.month.pr.b
 
@@ -299,7 +301,7 @@ lm.dif.pr.b <- current.usd.b - last.month.pr.b
 
 # 44 change in brent price since previous month txt
 
-lm.text.pr.b <- ifelse(lm.dif.pr.b > 0, "Up ",
+lm.text.pr.b <- ifelse(lm.dif.pr.b > 0, "Up",
                        ifelse( lm.dif.pr.b < 0, 
                                "Down", "No change since last month"))
 
@@ -321,7 +323,7 @@ ly.dif.pr.b <- current.usd.b - last.year.pr.b
 
 # 47 change in brent price since previous year txt
 
-ly.text.pr.b <- ifelse(ly.dif.pr.b > 0, "Up ",
+ly.text.pr.b <- ifelse(ly.dif.pr.b > 0, "Up",
                        ifelse( ly.dif.pr.b < 0, 
                                "Down", "No change since last month"))
 
@@ -338,7 +340,7 @@ ly.arrow.pr.b <- ifelse(ly.dif.pr.b > 0, "^",
 # --------------------------------------------------------------------------- #
 
 # 50 change in petrol price since previous week txt
-lw.word.pr.p <- ifelse(lw.dif.pr.p > 0, "Up ",
+lw.word.pr.p <- ifelse(lw.dif.pr.p > 0, "Up",
                        ifelse(lw.dif.pr.p < 0, 
                                "Down", "No change since last week"))
 
@@ -355,7 +357,7 @@ lm.dif.pr.p <- current.pr.p - last.month.pr.p
 
 # 53 change in brent price since previous month xt
 
-lm.word.pr.p <- ifelse(lm.dif.pr.p > 0, "Up ",
+lm.word.pr.p <- ifelse(lm.dif.pr.p > 0, "Up",
                        ifelse( lm.dif.pr.p < 0, 
                                "Down", "No change since last month"))
 
@@ -376,7 +378,7 @@ pump.prices %>%
 ly.dif.pr.p <- current.pr.p - last.year.pr.p
 
 # 56 change in petrol price since previous year txt
-ly.word.pr.p <- ifelse(ly.dif.pr.p > 0, "Up ",
+ly.word.pr.p <- ifelse(ly.dif.pr.p > 0, "Up",
                        ifelse( ly.dif.pr.p < 0, 
                                "Down", "No change since last year"))
 
@@ -389,7 +391,7 @@ ly.arrow.pr.p <- ifelse(ly.dif.pr.p > 0, "^",
                                 "v", "-"))
 
 # 59 change in diesel price since previous week txt
-lw.word.pr.d <- ifelse(lw.dif.pr.d > 0, "Up ",
+lw.word.pr.d <- ifelse(lw.dif.pr.d > 0, "Up",
                        ifelse(lw.dif.pr.d < 0, 
                               "Down", "No change since last week"))
 
@@ -406,7 +408,7 @@ lm.dif.pr.d <- current.pr.d - last.month.pr.d
 
 # 62 change in brent price since previous month 
 
-lm.word.pr.d <- ifelse(lm.dif.pr.d > 0, "Up ",
+lm.word.pr.d <- ifelse(lm.dif.pr.d > 0, "Up",
                        ifelse( lm.dif.pr.d < 0, 
                                "Down", "No change since last month"))
 
@@ -427,7 +429,7 @@ pump.prices %>%
 ly.dif.pr.d <- current.pr.d - last.year.pr.d
 
 # 65 change in diesel since previous year txt
-ly.word.pr.d <- ifelse(ly.dif.pr.d > 0, "Up ",
+ly.word.pr.d <- ifelse(ly.dif.pr.d > 0, "Up",
                        ifelse( ly.dif.pr.d < 0, 
                                "Down", "No change since last year"))
 

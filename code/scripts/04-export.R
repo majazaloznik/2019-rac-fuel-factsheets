@@ -15,13 +15,13 @@ tab01 <- data.frame(id = numeric(),
 tab01 %>% 
   bind_rows(list(id = 1, 
                  description = "date", 
-                 value = as.character(date))) -> tab01
+                 value = as.character(date.print))) -> tab01
 
 # 2 petrol price
 tab01 %>% 
   bind_rows(list(id = 2, 
                  description = "current petrol price", 
-                 value = as.character(current.pr.p))) -> tab01
+                 value = paste0(current.pr.p, "p"))) -> tab01
 
 # 3 text change since last week.
 tab01 %>% 
@@ -33,7 +33,7 @@ tab01 %>%
 tab01 %>% 
   bind_rows(list(id = 4, 
                  description = "current diesel price", 
-                 value = as.character(current.pr.d))) -> tab01
+                 value = paste0(current.pr.d, "p"))) -> tab01
 
 # 5 text change since last week.
 tab01 %>% 
@@ -54,102 +54,102 @@ tab02 <- data.frame(id = numeric(),
 tab02 %>% 
   bind_rows(list(id = 6, 
                  description = "current petrol price", 
-                 value = as.character(current.pr.p))) -> tab02
+                 value = paste0(current.pr.p, "p"))) -> tab02
 
 # 7 vat paid
 tab02 %>% 
   bind_rows(list(id = 7, 
                  description = "VAT paid on petrol (p)", 
-                 value = as.character(FunDec(vat.paid.p,2)))) -> tab02
+                 value = paste0(FunDec(vat.paid.p,2), "p"))) -> tab02
 
 # 8 vat as prop of price
 tab02 %>% 
   bind_rows(list(id = 8, 
                  description = "VAT paid on petrol (as % of total price)", 
-                 value = as.character(FunDec(vat.prop.p,2)))) -> tab02
+                 value = paste0(FunDec(vat.prop.p,2), "%"))) -> tab02
 
 # 9 fuel duty paid
 tab02 %>% 
   bind_rows(list(id = 9, 
                  description = "Fuel Duty on petrol (p)", 
-                 value = as.character(FunDec(duty.paid.p,2)))) -> tab02
+                 value = paste0(FunDec(duty.paid.p,2), "p"))) -> tab02
 
 # 10 fueld duty as prop of price
 tab02 %>% 
   bind_rows(list(id = 10, 
                  description = "Fuel Duty on petrol (as % of total price)", 
-                 value = as.character(FunDec(duty.prop.p,2)))) -> tab02
+                 value = paste0(FunDec(duty.prop.p,2), "%"))) -> tab02
 
 # 11 remaining cost (non-tax)
 tab02 %>% 
   bind_rows(list(id = 11, 
                  description = paste("Cost of oil, fuel production",
                  "and supply, and profit margin on petrol (p)"), 
-                 value = as.character(FunDec(non.tax.cost.p,2)))) -> tab02
+                 value = paste0(FunDec(non.tax.cost.p,2), "p"))) -> tab02
 
 # 12. remaining cost as prop of price
 tab02 %>% 
   bind_rows(list(id = 12, 
                  description = "Cost of oil etc. on petrol (as % of total price)", 
-                 value = as.character(FunDec(non.tax.prop.p,2)))) -> tab02
+                 value = paste0(FunDec(non.tax.prop.p,2), "%"))) -> tab02
 
 
 # 13 tax as prop of price
 tab02 %>% 
   bind_rows(list(id = 13, 
                  description = "% of petrol price which is tax", 
-                 value = as.character(FunDec(tax.prop.p,2)))) -> tab02
+                 value = paste0(FunDec(tax.prop.p,2), "%"))) -> tab02
 
 # 14 diesel price = same as 4
 tab02 %>% 
   bind_rows(list(id = 14, 
                  description = "current diesel price", 
-                 value = as.character(current.pr.d))) -> tab02
+                 value = paste0(current.pr.d, "p"))) -> tab02
 
 # 15 vat paid
 tab02 %>% 
   bind_rows(list(id = 15, 
                  description = "VAT paid on diesel (p)", 
-                 value = as.character(FunDec(vat.paid.d,2)))) -> tab02
+                 value = paste0(FunDec(vat.paid.d,2), "p"))) -> tab02
 
 
 # 16 vat as prop of price
 tab02 %>% 
   bind_rows(list(id = 16, 
                  description = "VAT paid on diesel (as % of total price)", 
-                 value = as.character(FunDec(vat.prop.d,2)))) -> tab02
+                 value = paste0(FunDec(vat.prop.d,2), "%"))) -> tab02
 
 # 17 fuel duty paid
 tab02 %>% 
   bind_rows(list(id = 17, 
                  description = "Fuel Duty on diesel (p)", 
-                 value = as.character(FunDec(duty.paid.d,2)))) -> tab02
+                 value = paste0(FunDec(duty.paid.d,2), "p"))) -> tab02
 
 
 # 18 fuel duty as prop of price
 tab02 %>% 
   bind_rows(list(id = 18, 
                  description = "Fuel Duty on diesel (as % of total price)", 
-                 value = as.character(FunDec(duty.prop.d,2)))) -> tab02
+                 value = paste0(FunDec(duty.prop.d,2), "%"))) -> tab02
 
 # 19 remaining cost (non-tax)
 tab02 %>% 
   bind_rows(list(id = 19, 
                  description = paste("Cost of oil, fuel production",
                                      "and supply, and profit margin on diesel (p)"), 
-                 value = as.character(FunDec(non.tax.cost.d,2)))) -> tab02
+                 value = paste0(FunDec(non.tax.cost.d,2), "p"))) -> tab02
 
 # 20. remaining cost as prop of price
 tab02 %>% 
   bind_rows(list(id = 20, 
                  description = "Cost of oil etc. on diesel (as % of total price)", 
-                 value = as.character(FunDec(non.tax.prop.d,2)))) -> tab02
+                 value = paste0(FunDec(non.tax.prop.d,2), "%"))) -> tab02
 
 # 21 tax as prop of price
 tab02 %>% 
   bind_rows(list(id = 21, 
                  description = "% of diesel price which is tax", 
-                 value = as.character(FunDec(tax.prop.d,2)))) -> tab02
+                 value = paste0(FunDec(tax.prop.d,2), "%"))) -> tab02
 
 # --------------------------------------------------------------------------- #
 # Cost to fill up an average car at the pumps in the UK --------------------- #
@@ -165,31 +165,31 @@ tab03 <- data.frame(id = numeric(),
 tab03 %>% 
   bind_rows(list(id = 22, 
                  description = "cost of filling average petrol tank today (£)", 
-                 value = as.character(FunDec(tank.p ,2)))) -> tab03
+                 value = paste0("£", FunDec(tank.p ,2)))) -> tab03
 
 # 23 average diesel tank
 tab03 %>% 
   bind_rows(list(id = 23, 
                  description = "cost of filling average diesel tank today (£)", 
-                 value = as.character(FunDec(tank.d ,2)))) -> tab03
+                 value = paste0("£", FunDec(tank.d ,2)))) -> tab03
 
 # 24 average petrol tank a month ago
 tab03 %>% 
   bind_rows(list(id = 24, 
                  description = "cost of filling average petrol tank last month (£)", 
-                 value = as.character(FunDec(tank.last.month.p ,2)))) -> tab03
+                 value = paste0("£", FunDec(tank.last.month.p ,2)))) -> tab03
 
 # 25 average diesel tank a month ago
 tab03 %>% 
   bind_rows(list(id = 25, 
                  description = "cost of filling average diesel tank last month (£)", 
-                 value = as.character(FunDec(tank.last.month.d ,2)))) -> tab03
+                 value = paste0("£", FunDec(tank.last.month.d ,2)))) -> tab03
 
 # 26 average petrol tank a month ago
 tab03 %>% 
   bind_rows(list(id = 26, 
                  description = "cost of filling average petrol tank six months ago (£)", 
-                 value = as.character(FunDec(tank.six.month.p ,2)))) -> tab03
+                 value = paste0("£", FunDec(tank.six.month.p ,2)))) -> tab03
 
 # 27 average petrol tank a month ago
 tab03 %>% 
@@ -270,8 +270,8 @@ tab06 %>%
 
 # 38 rest of chart - 12 months brent prices 
 oil.prices %>%
-  select( -GBP.USD.xr) %>% 
-  mutate_if(is.numeric, function(x) FunDec(x,2)) -> oil.chart
+  rename('Brent Crude Oil ($/barrel)' = Brent.USD,
+         'Brent Crude Oil (£/barrel)' = Brent.GBP) -> oil.prices
 
 
 
@@ -286,68 +286,31 @@ tab07 <- data.frame(id = numeric(),
 tab07 %>% 
   bind_rows(list(id = 39, 
                  description = "Current price of Brent oil in USD", 
-                 value = as.character(FunDec(current.usd.b, 2)))) -> tab07
+                 value = paste0("$", FunDec(current.usd.b, 2)))) -> tab07
 
 # 40 current price of brent in gbp
 tab07 %>% 
   bind_rows(list(id = 40, 
                  description = "Current price of Brent oil in GBP", 
-                 value = as.character(FunDec(current.gbp.b, 2)))) -> tab07
+                 value = paste0("£", FunDec(current.gbp.b, 2)))) -> tab07
 
 # 41 change in brent price since previous week txt
 tab07 %>% 
   bind_rows(list(id = 41, 
-                 description = "Direction of change in Brent price since last week (text)", 
-                 value = lw.text.pr.b)) -> tab07
-
-# 42 absolute difference since last week
-tab07 %>% 
-  bind_rows(list(id = 42, 
-                 description = "Absolute difference in Brent price since last week (USD)", 
-                 value = as.character(FunDec(lw.adif.pr.b, 2)))) -> tab07
-
-# 43 change in brent price since previous week arrow
-tab07 %>% 
-  bind_rows(list(id = 43, 
-                 description = "Direction of change in Brent price since last week (arrow)", 
-                 value = lw.arrow.pr.b)) -> tab07
+                 description = "Absolute change in Brent price since last week (text)", 
+                 value = paste0(lw.text.pr.b, " $", FunDec(lw.adif.pr.b, 2)))) -> tab07
 
 # 44 change in brent price since previous month txt
 tab07 %>% 
   bind_rows(list(id = 44, 
-                 description = "Direction of change in Brent price since last month (text)", 
-                 value = lm.text.pr.b)) -> tab07
-
-# 45 absolute difference since last month
-tab07 %>% 
-  bind_rows(list(id = 45, 
-                 description = "Absolute difference in Brent price since last month (USD)", 
-                 value = as.character(FunDec(lm.adif.pr.b, 2)))) -> tab07
-
-# 46 change in brent price since previous month arrow
-tab07 %>% 
-  bind_rows(list(id = 46, 
-                 description = "Direction of change in Brent price since last month (arrow)", 
-                 value = lw.arrow.pr.b)) -> tab07
+                 description = "Absolute change in Brent price since last month (text)", 
+                 value = paste0(lm.text.pr.b, " $", FunDec(lm.adif.pr.b, 2)))) -> tab07
 
 # 47 change in brent price since previous year txt
 tab07 %>% 
   bind_rows(list(id = 47, 
-                 description = "Direction of change in Brent price since last year (text)", 
-                 value = ly.text.pr.b)) -> tab07
-
-# 48 absolute difference since last year
-tab07 %>% 
-  bind_rows(list(id = 48,  
-                 description = "Absolute difference in Brent price since last year (USD)", 
-                 value = as.character(FunDec(ly.adif.pr.b, 2)))) -> tab07
-
-# 49 change in brent price since last year arrow
-tab07 %>%
-  bind_rows(list(id = 49, 
-                 description = "Direction of change in Brent price since last year (arrow)", 
-                 value = ly.arrow.pr.b)) -> tab07
-
+                 description = "Absolute change in Brent price since last year (text)", 
+                 value = paste0(ly.text.pr.b, " $", FunDec(ly.adif.pr.b, 2)))) -> tab07
 
 # --------------------------------------------------------------------------- #
 # UK average pump price change ---------------------------------------------- #
@@ -359,111 +322,38 @@ tab08 <- data.frame(id = numeric(),
 # 50 change in petrol price since previous week txt
 tab08 %>%
   bind_rows(list(id = 50, 
-                 description = "Direction of change in petrol price since last week (text)", 
-                 value = lw.word.pr.p)) -> tab08
-
-# 51 absolute difference since last week
-tab08 %>%
-  bind_rows(list(id = 51, 
-                 description = "Absolute change in petrol price since last week (£)", 
-                 value = as.character(FunDec(lw.adif.pr.p, 2)))) -> tab08
-
-# 52 change in petrol price since previous week arrow
-tab08 %>%
-  bind_rows(list(id = 52, 
-                 description = "Direction of change in petrol price since last week (arrow)", 
-                 value = lw.arrow.pr.p)) -> tab08
+                 description = "Absolute change in petrol price since last week (text)", 
+                 value = paste0(lw.word.pr.p, " £", FunDec(lw.adif.pr.p, 2)))) -> tab08
 
 # 53 change in petrol price since previous month text
 tab08 %>%
   bind_rows(list(id = 53, 
-                 description = "Direction of change in petrol price since last month (text)", 
-                 value = lm.word.pr.p)) -> tab08
-
-# 54 absolute difference since last month
-tab08 %>%
-  bind_rows(list(id = 54, 
-                 description = "Absolute change in petrol price since last month (£)", 
-                 value = as.character(FunDec(lm.adif.pr.p, 2)))) -> tab08
-
-# 55 change in petrol price since previous month arrow
-tab08 %>%
-  bind_rows(list(id = 55, 
-                 description = "Direction of change in petrol price since month week (arrow)", 
-                 value = lm.arrow.pr.p)) -> tab08
+                 description = "Absolute change in petrol price since last month (text)", 
+                 value = paste0(lm.word.pr.p, " £", FunDec(lm.adif.pr.p, 2)))) -> tab08
 
 # 56 change in petrol price since previous year txt
 tab08 %>%
   bind_rows(list(id = 56, 
-                 description = "Direction of change in petrol price since last year (text)", 
-                 value = ly.word.pr.p)) -> tab08
-
-# 57 absolute difference since last year
-tab08 %>%
-  bind_rows(list(id = 57, 
-                 description = "Absolute change in petrol price since last year (£)", 
-                 value = as.character(FunDec(ly.adif.pr.p, 2)))) -> tab08
-
-# 58 change in petrol price since previous year arrow
-tab08 %>%
-  bind_rows(list(id = 58, 
-                 description = "Direction of change in petrol price since month year (arrow)", 
-                 value = ly.arrow.pr.p)) -> tab08
+                 description = "Absolute change in petrol price since last year (text)", 
+                 value = paste0(ly.word.pr.p, " £", FunDec(ly.adif.pr.p, 2)))) -> tab08
 
 # 59 change in diesel price since previous week txt
 tab08 %>%
   bind_rows(list(id = 59, 
-                 description = "Direction of change in diesel price since last week (text)", 
-                 value = lw.word.pr.d)) -> tab08
-
-# 60 absolute difference since last week
-tab08 %>%
-  bind_rows(list(id = 60, 
-                 description = "Absolute change in  diesel since last week (£)", 
-                 value = as.character(FunDec(lw.adif.pr.d, 2)))) -> tab08
-
-# 61 change in diesel price since previous week arrow
-tab08 %>%
-  bind_rows(list(id = 61, 
-                 description = "Direction of change in diesel since last week (arrow)", 
-                 value = lw.arrow.pr.d)) -> tab08
+                 description = "Absolute change in diesel price since last week (text)", 
+                 value = paste0(lw.word.pr.d, " £", FunDec(lw.adif.pr.d, 2)))) -> tab08
 
 # 62 change in diesel price since previous month 
 tab08 %>%
   bind_rows(list(id = 62, 
-                 description = "Direction of change in diesel price since last month (text)", 
-                 value = lm.word.pr.d)) -> tab08
-
-# 63 absolute difference since last month
-tab08 %>%
-  bind_rows(list(id = 63, 
-                 description = "Absolute change in diesel price since last month (£)", 
-                 value = as.character(FunDec(lm.adif.pr.d, 2)))) -> tab08
-
-# 64 change in diesel price since previous month arrow
-tab08 %>%
-  bind_rows(list(id = 64, 
-                 description = "Direction of change in diesel price since month week (arrow)", 
-                 value = lm.arrow.pr.d)) -> tab08
+                 description = "Absolute change in diesel price since last month (text)", 
+                 value = paste0(lm.word.pr.d, " £", FunDec(lm.adif.pr.d, 2)))) -> tab08
 
 # 65 change in diesel since previous year txt
 tab08 %>%
   bind_rows(list(id = 65, 
-                 description = "Direction of change in diesel price since last year (text)", 
-                 value = ly.word.pr.d)) -> tab08
-
-
-# 66 absolute difference since last year
-tab08 %>%
-  bind_rows(list(id = 66, 
-                 description = "Absolute change in diesel price since last year (£)", 
-                 value = as.character(FunDec(ly.adif.pr.d, 2)))) -> tab08
-
-# 67 change in petrol price since previous year arrow
-tab08 %>%
-  bind_rows(list(id = 67, 
-                 description = "Direction of change in diesel price since month year (arrow)", 
-                 value = ly.arrow.pr.d)) -> tab08
+                 description = "Absolute change in diesel price since last year (text)", 
+                 value = paste0(ly.word.pr.d, " £", FunDec(ly.adif.pr.d, 2)))) -> tab08
 
 
 # --------------------------------------------------------------------------- #
@@ -523,10 +413,13 @@ data.folder <- file.path("data", working.year)
 suppressWarnings(dir.create(data.folder, recursive = TRUE))
 
 # export to excel workbook
+# open template
+wb <- loadWorkbook(paste0("code/scripts/RACF_Fuel_factsheet_template.xlsx"))
+# create new file name
+name <- paste0(data.folder, "/RACF_Fuel_factsheet_",  date.calc, ".xlsx")
+# clear sheets in case it existed already
 
-# create new workbook
-wb <- loadWorkbook(paste0(data.folder, "/RACF Fuel factsheet",  Sys.Date()-1, 
-                          ".xlsx"), create = TRUE)
+# clearSheet(wb, getSheets(wb))
 
 setStyleAction(wb, XLC$"STYLE_ACTION.DATATYPE")
 cs <- createCellStyle(wb)
@@ -540,12 +433,12 @@ setColumnWidth(wb, sheet = "master", column = 2:3, width = -1)
 
 # Save pump chart data table 
 createSheet(wb, name = "pump.chart")
-writeWorksheet(wb, pump.chart, sheet = "pump.chart")
+writeWorksheet(wb, pump.prices[1:3], sheet = "pump.chart")
 setColumnWidth(wb, sheet = "pump.chart", column = 1:3, width = -1)
 
 # Save master data table 
 createSheet(wb, name = "oil.chart")
-writeWorksheet(wb, oil.chart, sheet = "oil.chart")
+writeWorksheet(wb, oil.prices[1:3], sheet = "oil.chart")
 setColumnWidth(wb, sheet = "oil.chart", column = 1:3, width = -1)
 
 # Save master data table 
@@ -558,7 +451,7 @@ createSheet(wb, name = "eu.rank.d")
 writeWorksheet(wb, eu.rank.d, sheet = "eu.rank.d")
 setColumnWidth(wb, sheet = "eu.rank.d", column = 1:3, width = -1)
 
-saveWorkbook(wb)
+saveWorkbook(wb, name)
 
 attachments <- wb@filename
 

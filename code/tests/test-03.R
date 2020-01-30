@@ -3,7 +3,7 @@
 # =========================================================================== #
 
 # check the date is yesterday ----------------------------------------------- #
-expect_true(Sys.Date() - 1 == date, 
+expect_true(Sys.Date() - 1 == date.calc, 
             info = "The data is not from yesterday, are you sure that's OK?")
 
 #checks fuel prices are no more than 10ppl apart ---------------------------- #

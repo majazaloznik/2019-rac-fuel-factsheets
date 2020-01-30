@@ -425,6 +425,49 @@ OK: unit testing reading.
 
 * actually i can throw out the data.folder alltogether, why give options, just stick with the default unless they ask for sth different. 
 
+* send to Ivo after some clean up. commit this version now. 
+
+
+# Thursday 30.1.2020
+
+Responses from Nick. Need to do the charts in the Excel files. One option is the way it was done before, with a template file. This is also the solution proposed [here](https://stackoverflow.com/questions/38888652/use-r-to-create-chart-in-excel-sheet). 
+
+* Not sure why i don't like it. The template is dangerous i guess, another moving part. need to check permissions, stop people from changing it. would be cleaner if you could do it from outside. 
+
+* Another option would be another type of image file, like eps or sth. created directly in R. 
+
+* OK, I guess I'll have to do the template then.. Let's do the other things first. 
+
+1. Please change the date format to – 27 January 2020. OK
+
+2. Can all the numbers have the following relevant symbols added to them either before or after them in the ‘value’ column – ‘£’, ‘$’, ‘p’, ‘%’
+Examples as follows:
+Line id 2 would become – 128.16p (so have the ‘pence’ added to the end of it)
+Line id 8 would become – 16.67% (so have the ‘percentage sign’ added to the end of it)
+Line id 22 would become – £70.49 (so have the ‘pound sign’ added at the beginning)
+Line id 42 would become – $6.15 (so have the ‘dollar sign’ added at the beginning)
+
+OK, all done
+
+3. Please remove all the lines that show up and down arrows – line id’s 43, 46, 49, 52, 53, 58, 61, 64 and 67 OK
+
+4. Put the words ‘Down’ and ‘Up’, from line id number 41 onwards, before the number in the value column as per line id’s 3 and 5, OK. 
+
+5. The pump.chart and oil.chart tabs – we need the actual charts to show as they do in the current documents we use
+
+* OOH, noticed that the script overwrites the file if it exists already, which could be a problem theoretically if the new data is "smaller" than the old. Fixed by clearing all the spreadsheets at the start. Oh, actually, this won't work if I have charts? will it delete the charts? lemme try. 
+
+* Ah, no, so i need the template principle anyway, so no overwriting necessary. 
+
+* Oh, presumably I also have to format the charts? 
++ Legend. OK
++ colours.OK
+
+* Move the tempate to the scripts folder, nowhere else to put it safely. 
+
+* commit
+
+
 # Appendix  - make file
 ```{r, echo = FALSE, out.width='100%', fig.caption = "This is what my makefile looks like graphically at the minute:"}
 knitr::include_graphics(paste0(rprojroot::find_root("Makefile"),"/figures/make.png"))
