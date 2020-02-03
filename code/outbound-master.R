@@ -11,27 +11,13 @@
 #                                INSTRUCTIONS                                 #
 # =========================================================================== #
 #                                                                             #
-#   1.  If you are running this script from your work computer                #
-#       make sure the logical value work.computer below is set to TRUE        #
+#   1.  Source this file.                                                     #
 #                                                                             #
-#   2.  If you are running this script from a non-work computer               #
-#       change the logical value below to FALSE                               #
-#       and enter your email and password.                                    #              
+#   2.  Check output in the console for any issues.                           #
 #                                                                             #
-#   3.  Then source this file.                                                #
-#                                                                             #
-#   4.  Check output in the console for any issues.                           #
-#                                                                             #
-#   5.  The output Excel file is in the data folder.                          #
+#   3.  The output Excel file is in the /data folder.                          #
 #                                                                             #
 # =========================================================================== #
-
-# =========================================================================== #
-# setup if not on work PC                                                     #
-# =========================================================================== #
-work.computer <- TRUE
-sender.email <- "bhavin.makwana@racfoundation.org"
-password <- "XXX"
 
 # =========================================================================== #
 # constants which might change 

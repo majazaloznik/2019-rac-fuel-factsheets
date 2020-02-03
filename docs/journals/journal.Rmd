@@ -488,6 +488,15 @@ Comments from Nick:
 
 * Commit. 
 
+Ivo's comments:
+
+1. Remove work/home computer distinction. 
+
+2. Reply to comments and send new code.zip file. 
+
+3. Commit
+
+
 
 # Appendix  - make file
 ```{r, echo = FALSE, out.width='100%', fig.caption = "This is what my makefile looks like graphically at the minute:"}

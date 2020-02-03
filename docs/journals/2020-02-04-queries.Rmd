@@ -1,0 +1,54 @@
+---
+title: "Fuel Factsheet Queries v2"
+output:
+  pdf_document: 
+    number_sections: true
+---
+  
+---
+
+
+**Work/home PC** - *Ah, OK. I've removed the work/home flag and everything associated. The code now attempts to send an email using outlook. But not sure how that works with VM, presumably doesn't?*
+
+**The emailing** - *you said you'd give it some more thought. Not sure what you meant, but I'm adding it here so you don't forget. *
+
+**test googlesheet** - *The test googlesheet only has the three relevant spreadsheets. You can find it [**here**](https://docs.google.com/spreadsheets/d/1-pBRy5IcBpMuZmf-2zzmSNM-0hWPyd4HGPrd-JbFZQw/edit#gid=0)*
+
+**checks** - *there is currently a sanity (overridable) check that the data is from yesterday. *
+
+1. **the googlesheet**. I guess the question is only relevant to know what can possibly go wrong. 
+
+2. What explicit tests/checks would you like included? *You can have a look at the test files to see what the existing checks are: they are easy to understand if you just read the error messages that I've set up.*
+
+3. We are currently checking the prices are lower than the all time highs. I've moved these values as parameters at the start of the main script, so you can change them if need be. There's max petrol, max diesel and max oil. Are there any others that might be useful here? 
+
+*You said:*
+"I'd like set a percentage change value between the latest data point and the one prior, and another percentage change value for the latest data point and one 5 prior."                                                       
+*So do I understand correctly that you would like to be able to set a parameter that would be tested: e.g. max.prev.perc = X% and if the change from the previous data point is more than  X%, you would get a warning?*
+
+*There are already checks that the price didn't change more than 5p in the previous week. Do you want to keep those? DO you want the 5p value to be a parameter for you to change as well? Or should the new max.prev.perc and max.5.prev.perc. just be set in the test?*
+
+4. The VAT and duty rates are now entered as parameters so you  can change them if need be. Is it OK to assume they will be the same for both petrol and diesel?
+
+5. If it's a Monday when the script is run, should that stop the script or just trigger a warning?
+
+You said: "Running this on non-Tuesdays or on Tuesdays after Bank Holiday Mondays can be problematic.  It shouldn't stop the script, but just trigger a warning."
+
+*Wait, what? Which days are problematic, non-Tuesdays? What should trigger a warning, any Monday and Tuesday after Bank Holidays? There is also a warning if the data isn't from yesterday, wouldn't that cover this problem or is it a separate issue?*
+
+
+6. If the data is not from yesterday when the script is run, should that stop the script or just trigger a warning? *OK* 
+
+8. There seem to be some inconsistencies in the googlesheet about how to determine which day is 1 week, 1 month or 6 months ago...
+
+*OK, so now I've done the following:*
+
+* *One month is e.g. 29.1.2020 minus 1 month and 1 day, 28.12.2019, but that's a Saturday, so 27.12.2019*
+* *six months is e.g. 29.1.2020 minus 6months and 1 day, so 28.7.2019, but that's a Sunday, so it's 26.12.2019*
+
+*Is this OK?*
+                                                                                                      
+11. The oil price over last 12 months chart: There's an error in the visualisation: the minimum is for \$/barrel, but is drawn on the £/barrel line. Maybe it's not an error, but it's an awkwardness. One option is to print out both the £/barrel and the \$/barrel prices, and draw a vertical dashed line connecting both points. It is theoretically possible that lowest price in $ is not the same day as the lowest price in £ though. So just a warning, this isn't really related to the script per se. *Keeping this here for Nick later*
+                                                                                                      
+13. is the oil price table always exactly 12 months long? i mean can i just take the last row in the table to get last year's price?. Same question for pump prices (**Max/min fuel working**, "E1:G260"). How are these worksheets created, can I rely on them being 12 months long?
+

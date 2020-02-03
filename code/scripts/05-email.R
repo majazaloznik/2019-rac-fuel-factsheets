@@ -1,19 +1,12 @@
 # =========================================================================== #
 # 5. Email script                                                             #
 # =========================================================================== #
-
 subject <-  paste0("RACF Fuel factsheet", Sys.Date() -1)
 
 recipients <- paste(#"anneka.lawson@racfoundation.org;",
                     "ivo.wengraf@racfoundation.org;" #,
                     #"nick@javelin.eu;",
                     #"marc@javelin.eu;",
-                    #"philip.gomm@racfoundation.org"
-                    )
-recipients2 <- c(#"anneka.lawson@racfoundation.org",
-                    "ivo.wengraf@racfoundation.org"#,
-                    #"nick@javelin.eu", 
-                    #"marc@javelin.eu",
                     #"philip.gomm@racfoundation.org"
                     )
 
@@ -38,22 +31,3 @@ if (work.computer  & .Platform$OS.type != "unix") {
   OutMail[["Attachments"]]$Add(attachments)
   OutMail$Send()
 }
-
-# --------------------------------------------------------------------------- #
-# email if not using  office pc --------------------------------------------- #
-# --------------------------------------------------------------------------- #
-
-if (!work.computer) {
-  email <- send.mail(from = sender.email,
-                     to = recipients2,
-                     subject= subject,
-                     body = msg.body,
-                     smtp = list(host.name = "smtp.office365.com", port = 587, 
-                                 user.name = sender.email, 
-                                 passwd = password,
-                                 tls = TRUE),
-                     authenticate = TRUE,
-                     send = TRUE,
-                     attach.files = attachments)
-}
-

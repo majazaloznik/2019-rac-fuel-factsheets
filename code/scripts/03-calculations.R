@@ -126,7 +126,7 @@ tank.d <- current.pr.d * 55 / 100
 
 # price previous month  
 pump.prices %>% 
-  filter(Date <= date.calc %m-% months(1)) %>% 
+  filter(Date <= date.calc %m-% months(1) %m-% days(1)) %>% 
   filter(row_number() == 1) %>% 
   pull(Petrol) -> last.month.pr.p
 
@@ -135,7 +135,7 @@ tank.last.month.p <- last.month.pr.p * 55 / 100
 
 # price previous month  
 pump.prices %>% 
-  filter(Date <= date.calc %m-% months(1)) %>% 
+  filter(Date <= date.calc %m-% months(1) %m-% days(1)) %>% 
   filter(row_number() == 1) %>% 
   pull(Diesel) -> last.month.pr.d
 
@@ -144,7 +144,7 @@ tank.last.month.d <- last.month.pr.d * 55 / 100
 
 # price six months ago  
 pump.prices %>% 
-  filter(Date <= (date.calc) %m-% months(6)) %>% 
+  filter(Date <= (date.calc) %m-% months(6) %m-% days(1)) %>% 
   filter(row_number() == 1) %>% 
   pull(Petrol) -> six.month.pr.p
 
@@ -153,7 +153,7 @@ tank.six.month.p <- six.month.pr.p * 55 / 100
 
 # price six months ago  
 pump.prices %>% 
-  filter(Date <= (date.calc) %m-% months(6)) %>% 
+  filter(Date <= (date.calc) %m-% months(6)%m-% days(1)) %>% 
   filter(row_number() == 1) %>% 
   pull(Diesel) -> six.month.pr.d
 
@@ -292,7 +292,7 @@ lw.arrow.pr.b <- ifelse(lw.dif.pr.b > 0, "^",
 
 # price previous month  
 oil.prices %>% 
-  filter(Date <= date.calc %m-% months(1)) %>% 
+  filter(Date <= date.calc %m-% months(1) %m-% days(1)) %>% 
   filter(row_number() == 1) %>% 
   pull(Brent.USD) -> last.month.pr.b
 
