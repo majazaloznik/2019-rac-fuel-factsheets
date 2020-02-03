@@ -423,7 +423,7 @@ name <- paste0(data.folder, "/RACF_Fuel_factsheet_",  date.calc, ".xlsx")
 
 setStyleAction(wb, XLC$"STYLE_ACTION.DATATYPE")
 cs <- createCellStyle(wb)
-setDataFormat(cs, format = "yyyy-mm-dd")
+setDataFormat(cs, format = "dd-mm-yyyy")
 setCellStyleForType(wb, style = cs, type = XLC$"DATA_TYPE.DATETIME")
 
 # Save master data table 
@@ -431,25 +431,23 @@ createSheet(wb, name = "master")
 writeWorksheet(wb, master, sheet = "master")
 setColumnWidth(wb, sheet = "master", column = 2:3, width = -1)
 
+# Save eu rank data table 
+createSheet(wb, name = "eu.rank")
+writeWorksheet(wb, eu.rank.p, sheet = "eu.rank")
+writeWorksheet(wb, eu.rank.d, sheet = "eu.rank", startRow = 1, startCol = 5)
+setColumnWidth(wb, sheet = "eu.rank", column = 1:7, width = -1)
+
 # Save pump chart data table 
-createSheet(wb, name = "pump.chart")
-writeWorksheet(wb, pump.prices[1:3], sheet = "pump.chart")
-setColumnWidth(wb, sheet = "pump.chart", column = 1:3, width = -1)
+createSheet(wb, name = "pump.chart.data")
+writeWorksheet(wb, pump.prices[1:3], sheet = "pump.chart.data")
+setColumnWidth(wb, sheet = "pump.chart.data", column = 1:3, width = -1)
 
-# Save master data table 
-createSheet(wb, name = "oil.chart")
-writeWorksheet(wb, oil.prices[1:3], sheet = "oil.chart")
-setColumnWidth(wb, sheet = "oil.chart", column = 1:3, width = -1)
+# Save poin chart data table 
+createSheet(wb, name = "oil.chart.data")
+writeWorksheet(wb, oil.prices[1:3], sheet = "oil.chart.data")
+setColumnWidth(wb, sheet = "oil.chart.data", column = 1:3, width = -1)
 
-# Save master data table 
-createSheet(wb, name = "eu.rank.p")
-writeWorksheet(wb, eu.rank.p, sheet = "eu.rank.p")
-setColumnWidth(wb, sheet = "eu.rank.p", column = 1:3, width = -1)
 
-# Save master data table 
-createSheet(wb, name = "eu.rank.d")
-writeWorksheet(wb, eu.rank.d, sheet = "eu.rank.d")
-setColumnWidth(wb, sheet = "eu.rank.d", column = 1:3, width = -1)
 
 saveWorkbook(wb, name)
 

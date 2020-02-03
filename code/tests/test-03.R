@@ -32,4 +32,8 @@ expect_true(abs(lw.dif.pr.d) < 5,
 expect_true(between(current.usd.b, 20, max.usd.b),
             info = "Oil price is outside the range of 20 to 142c, is that correct?")
 
+# test it isn't a Monday
+Sys.setlocale("LC_TIME", "C")
+expect_false(weekdays(Sys.Date()) == "Monday",
+             info = "You really shouldn't be preparing the factsheet on a Monday!")
 

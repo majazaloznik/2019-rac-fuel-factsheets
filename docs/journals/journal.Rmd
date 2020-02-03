@@ -467,6 +467,27 @@ OK, all done
 
 * commit
 
+# Monday 3.2.2020
+
+* Move test of Monday to test-03, which means it can be overrulled. 
+
+Comments from Nick:
+
+* Please make the 2 table tabs into one tab. Put the petrol, as it currently is on the left, in columns A, B and C. Then in the same tab add the diesel information to the right of the petrol information in columns E, F and G. OK
+
+* Once the two tables tabs are one not two, please move this tab to be the second tab in the file next to the master tab.OK.
+
+* Pump and oil charts; please can the charts be in separate tabs (as per the current file we use) and be the same size as they are in that file. OK
+
+* On the actual charts the dates aren’t showing properly. Please can these show properly but also change the format of them to – day, month, year. OK
+
+* Both the charts need the two vertical lines on the left and right hand sides removed (please see current document for this).
+
+* Hm, careful, the charts need to know how long the tables are? I htink this is OK now, the chart template now takes 258 rows regardless of how many are required. 
+* **Axis scale not saving in the template**
+
+* Commit. 
+
 
 # Appendix  - make file
 ```{r, echo = FALSE, out.width='100%', fig.caption = "This is what my makefile looks like graphically at the minute:"}

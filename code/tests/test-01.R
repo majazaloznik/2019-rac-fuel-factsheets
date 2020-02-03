@@ -16,7 +16,3 @@ expect_true("rstudioapi" %in% (.packages()),
 if(.Platform$OS.type != "unix") {expect_true("RDCOMClient" %in% (.packages()), 
                                              info = "The RDCOMClient package did not load properly.")}
 
-# test it isn't a Monday
-Sys.setlocale("LC_TIME", "C")
- expect_false(weekdays(Sys.Date()) == "Monday",
-              info = "You shouldn't be preparing the factsheet on a Monday!")
