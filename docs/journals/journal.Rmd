@@ -496,6 +496,15 @@ Ivo's comments:
 
 3. Commit
 
+# Tuesday 4.2.2020
+
+1. Change date format in template charts. to 13/2/2020. OK, done that. Will see how the Excel file works on L&A's computer and also get Ivo to try it on their machines first. 
+
+2. That's all I can do for now?
+
+
+
+
 
 
 # Appendix  - make file

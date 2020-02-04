@@ -423,7 +423,7 @@ name <- paste0(data.folder, "/RACF_Fuel_factsheet_",  date.calc, ".xlsx")
 
 setStyleAction(wb, XLC$"STYLE_ACTION.DATATYPE")
 cs <- createCellStyle(wb)
-setDataFormat(cs, format = "dd-mm-yyyy")
+setDataFormat(cs, format = "dd/mm/yyyy")
 setCellStyleForType(wb, style = cs, type = XLC$"DATA_TYPE.DATETIME")
 
 # Save master data table 

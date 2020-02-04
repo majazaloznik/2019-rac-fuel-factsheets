@@ -22,7 +22,7 @@ on.exit(writeLines("Email script completed.\n\nWhole factsheet script completed.
 # email using outlook ------------------------------------------------------- #
 # --------------------------------------------------------------------------- #
 
-if (work.computer  & .Platform$OS.type != "unix") {
+if (.Platform$OS.type != "unix") {
   OutApp=COMCreate("Outlook.Application")
   OutMail=OutApp$CreateItem(0)
   OutMail[["To"]]  = recipients
