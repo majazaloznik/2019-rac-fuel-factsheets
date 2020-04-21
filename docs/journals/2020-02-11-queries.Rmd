@@ -1,0 +1,36 @@
+---
+title: "Fuel Factsheet Queries v3"
+output:
+  pdf_document: 
+    number_sections: true
+date: "`r format(Sys.time(), '%d.%m.%Y')`"
+---
+  
+---
+  
+
+2. What explicit tests/checks would you like included? *You can have a look at the test files to see what the existing checks are: they are easy to understand if you just read the error messages that I've set up.*
+  
+3. **checks and parameters**. 
+
+You said: 
+
+*  "So, I'd want checks for: comparison between latest date of data and date of running" *What does this mean?*
+* "that there are no gaps" *This means there are no missing values? That's OK. Or do you mean sth else?*
+* "that these 2 percentage change gaps I mentioned." *OK, added. `max.perc.diff.1d` from the previous data point and `max.perc.diff.1w` from the previous week. Both can be overridden."*
+* "I would also like to be able to set absolute max/min values (if seen in the time series, there must be something wrong)." *OK, these are already there: max petrol, max diesel and max oil. I've added the three minima as well.*
+
+4. The VAT and duty rates are now entered as parameters so you  can change them if need be. Is it OK to assume they will be the same for both petrol and diesel? *OK, i've made them different*.
+
+5. You said: "The warning about the data not coming from yesterday should be enough to cover all eventualities." *OK, I've removed the Monday check and only check if the data is from yesterday (which you can ignore and proceed anyway.*
+  
+11. The oil price over last 12 months chart: There's an error in the visualisation: the minimum is for \$/barrel, but is drawn on the £/barrel line. Maybe it's not an error, but it's an awkwardness. One option is to print out both the £/barrel and the \$/barrel prices, and draw a vertical dashed line connecting both points. It is theoretically possible that lowest price in $ is not the same day as the lowest price in £ though. So just a warning, this isn't really related to the script per se. *Keeping this here for Nick later*
+  
+13. is the oil price table always exactly 12 months long? You said don't assume so. *OK, I'll check. The previous script checked there was between 364 and 368 days worth of data. Not sure why. I'm changing it to 365 to 368. In case it's a leap year and one year ago was a Sunday, we take +2 days = 368. But a minimum of 365. OK?*
+
+
+14. **The Excel template.** Ivo: are you getting the same odd artefacts that Nick saw with the axis labels? Let me know what it looks like on your end. 
+
+Also, the Excel template is in the /code/scripts folder, so you can tweak it there. Just to say that we can bypass me messing it up with libre office.. 
+
+

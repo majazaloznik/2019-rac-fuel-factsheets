@@ -22,17 +22,32 @@
 # =========================================================================== #
 # constants which might change 
 # =========================================================================== #
-# all time high petrol price
+# all time high petrol price (p)
 max.p <- 142
-# all time high diesel price
+# minimum petrol price (p)
+min.p <- 90
+# all time high diesel price (p)
 max.d <- 148
+# minimum diesel price (p)
+min.d <- 90
 # all time high oil price (usd)
 max.usd.b <- 142
-# vat
-vat <- 20
-# fuel duty
-duty <- 57.95
-# =========================================================================== #
+# minimum oil price (usd.c)
+min.usd.b <- 20
+# max percent diff from previous data point
+max.perc.diff.1d <- 1
+# max percent diff from last week's data point
+max.perc.diff.1w <- 3
+# vat for petrol
+vat.p <- 20
+# vat for diesel (currently same as petrol)
+vat.d <- vat.p
+# fuel duty for petrol
+duty.p <- 57.95
+# fued duty for diesel (currently same as petrol)
+duty.d <- duty.p
+
+
 
 # =========================================================================== #
 # 1. Preliminaries                                                            #
@@ -77,7 +92,7 @@ if (!exists("test03")) {
   if (all(c(sapply(test03, isTRUE), sapply(test02, isTRUE), 
             sapply(test01, isTRUE))))   {
     writeLines("Calculations script completed. \n\nNow running export script")
-  source("code/scripts/04-export.R")
+  fisource("code/scripts/04-export.R")
   } else {
     writeLines("The calculations script did not run smoothly. See errors below:")
     writeLines(paste("->", sapply(test03, function(x) 
@@ -92,7 +107,6 @@ if (!exists("test03")) {
     }
   }
 }
-
 
 # =========================================================================== #
 # 5. email edits                                                              #
@@ -110,3 +124,4 @@ if (!exists("test04")) {
       attributes(x)$info)[!sapply(test04, isTRUE)]))
   }
 }
+

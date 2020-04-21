@@ -4,18 +4,18 @@
 
 # Download ------------------------------------------------------------------ #
 
-# actual google sheet. uncomment when done testing
-# register googlesheet
-# gs<- gs_url(paste0("https://docs.google.com/spreadsheets/d/",
-#                      "1sj_T9S2AkFYMrDZqL4ZQfUJTWeQEPCIKqlGS7kJOZ2A/",
-#                      "edit#gid=1319741025"), 
-#               lookup = FALSE, visibility = NULL, verbose = FALSE)
+#actual google sheet. uncomment when done testing
+#register googlesheet
+gs<- gs_url(paste0("https://docs.google.com/spreadsheets/d/",
+                     "1sj_T9S2AkFYMrDZqL4ZQfUJTWeQEPCIKqlGS7kJOZ2A/",
+                     "edit#gid=1319741025"),
+              lookup = FALSE, visibility = NULL, verbose = FALSE)
 
-# test google sheet. comment when you switch back to actual google sheet
-gs <- gs_url(paste0("https://docs.google.com/spreadsheets/d/",
-                    "1-pBRy5IcBpMuZmf-2zzmSNM-0hWPyd4HGPrd-JbFZQw/edit#gid=0"), 
-             lookup = FALSE, visibility = NULL, verbose = FALSE)
-
+# # test google sheet. comment when you switch back to actual google sheet
+# gs <- gs_url(paste0("https://docs.google.com/spreadsheets/d/",
+#                     "1-pBRy5IcBpMuZmf-2zzmSNM-0hWPyd4HGPrd-JbFZQw/edit#gid=0"),
+#              lookup = FALSE, visibility = NULL, verbose = FALSE)
+# 
 
 
 
@@ -89,6 +89,18 @@ eu.pre.t.d <- Fun.gs.clean(eu.pre.t.d)
 #  and fix column types
 pump.prices <- Fun.col.types(pump.prices)
 oil.prices <- Fun.col.types(oil.prices)
+
+# extract the data's date
+date.calc <- pump.prices[1,1]
+
+# and make sure we don't have more than 1 year's worth of data
+pump.prices %>% 
+  filter(Date >= date.calc %m-% years(1) %m-% days(1)) -> pump.prices
+
+oil.prices %>% 
+  filter(Date >= date.calc %m-% years(1) %m-% days(1)) -> oil.prices
+
+
 
 # clean currency symbols
 eu.p$retail.p <- as.numeric(gsub("\\£", "", eu.p$retail.p))

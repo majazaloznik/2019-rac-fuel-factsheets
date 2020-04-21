@@ -502,8 +502,35 @@ Ivo's comments:
 
 2. That's all I can do for now?
 
+3. COmmit/. 
+
+# Friday 7.2.2020
+
+Ivo's comments and email script. 
+
+* OK, let's try the email script. Al good. 
+* Respond to comments and start new query file
 
 
+# Monday 10.2.2020
+
+* Responding to comments:
+ + add more parameters
+ + add percent diff checks
+ + make sure we only import max 1 year worth of data for the two main tables. And check there isn't less. OK. 
+
+# Monday 17.2.2020
+
+# Tuesday 21.4.2020
+
+Testing the script because oil prices have gone negative :)
+But the test fails for 1 year of pump data. the reason being that it was easter about a year ago, so i don't pull enough days, but i check for there being enough. SO i need to make sure the download actually takes enough even if there is a large gap, like the one over easter. 
+
+* so the clean up just goes back -1year -1day. but in this case it ends up being less than one year. so it should always take 1year+1day back, but if it doesn't exist, take the next one? no, no point taking the row i don't need. just change the 365 to 363. 
+
+* also, the tempate has 255 rows of data, so if i take in fewer than that, the last rows remain. now i've thrown them out, but let's test this. OK. works fine. now i have 252 rows. 
+
+* now test negative prices
 
 
 

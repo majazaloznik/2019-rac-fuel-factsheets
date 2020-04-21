@@ -7,7 +7,6 @@
 # --------------------------------------------------------------------------- #
 
 # 1 date 
-date.calc <- pump.prices[1,1]
 date.print <- format(date.calc, "%d %B %Y")
 
 
@@ -22,8 +21,19 @@ pump.prices %>%
   filter(row_number() == nrow(.)) %>% 
   pull(Petrol) -> last.week.pr.p
 
+# price previous data point
+pump.prices %>% 
+  filter(row_number() == 2) %>% 
+  pull(Petrol) -> last.data.pr.p
+
 # difference since last week
 lw.dif.pr.p <- current.pr.p - last.week.pr.p
+
+# percent difference since last week
+lw.dif.per.p <- 100 * abs(current.pr.p/last.week.pr.p - 1)
+
+# percent difference since last data point
+ld.dif.per.p <- 100 * abs(current.pr.p/last.data.pr.p - 1)
 
 # 3 text change since last week.
 lw.text.pr.p <- ifelse(lw.dif.pr.p > 0, 
@@ -46,8 +56,19 @@ pump.prices %>%
   filter(row_number() == nrow(.)) %>% 
   pull(Diesel) -> last.week.pr.d
 
+# price previous data point
+pump.prices %>% 
+  filter(row_number() == 2) %>% 
+  pull(Diesel) -> last.data.pr.d
+
 # difference since last week
 lw.dif.pr.d <- current.pr.d - last.week.pr.d
+
+# percent difference since last week
+lw.dif.per.d <- 100 * abs(current.pr.d/last.week.pr.d - 1)
+
+# percent difference since last data point
+ld.dif.per.d <- 100 * abs(current.pr.d/last.data.pr.d - 1)
 
 # 5 text change since last week.
 lw.text.pr.d <- ifelse(lw.dif.pr.d > 0, 
@@ -67,7 +88,7 @@ lw.text.pr.d <- ifelse(lw.dif.pr.d > 0,
 # 6 petrol price = same as 2
 
 # 7 vat paid
-vat.rate.p <- vat
+vat.rate.p <- vat.p
 
 vat.paid.p <- current.pr.p * vat.rate.p / (100 + vat.rate.p)
 
@@ -75,7 +96,7 @@ vat.paid.p <- current.pr.p * vat.rate.p / (100 + vat.rate.p)
 vat.prop.p <- 100 * vat.rate.p / (100 + vat.rate.p)
 
 # 9 fuel duty paid
-duty.paid.p <- duty
+duty.paid.p <- duty.p
 
 # 10 fueld duty as prop of price
 duty.prop.p <- 100 * duty.paid.p / (current.pr.p)
@@ -92,14 +113,14 @@ tax.prop.p <- 100 - non.tax.prop.p
 # 14 diesel price = same as 4
 
 # 15 vat paid
-vat.rate.d <- vat
+vat.rate.d <- vat.d
 vat.paid.d <- current.pr.d * vat.rate.d / (100 + vat.rate.d)
 
 # 16 vat as prop of price
 vat.prop.d <- 100 * vat.rate.d / (100 + vat.rate.d)
 
 # 17 fuel duty paid
-duty.paid.d <- duty
+duty.paid.d <- duty.d
 
 # 18 fueld duty as prop of price
 duty.prop.d <- 100 * duty.paid.d / (current.pr.d)
@@ -162,6 +183,7 @@ tank.six.month.d <- six.month.pr.d * 55 / 100
 
 # 12 month low
 pump.prices %>% 
+  filter(Date <= (date.calc) %m-% years(1)%m-% days(1)) %>% 
   filter(Petrol == min(Petrol)) %>% 
   mutate(tank = Petrol * 55 /100) -> year.min.p
 
@@ -174,6 +196,7 @@ paste0("£", FunDec(year.min.p$tank, 2), " (",
 
 # 12 month low
 pump.prices %>% 
+  filter(Date <= (date.calc) %m-% years(1)%m-% days(1)) %>% 
   filter(Diesel == min(Diesel)) %>% 
   mutate(tank = Diesel * 55 /100)-> year.min.d
 
@@ -189,6 +212,7 @@ paste0("£",FunDec(year.min.d$tank, 2), " (",
 
 # 12 month high diesel
 pump.prices %>% 
+  filter(Date <= (date.calc) %m-% years(1)%m-% days(1)) %>% 
   filter(Diesel == max(Diesel)) -> year.max.d
 
 # 30 12-month diesel high as text
@@ -205,6 +229,7 @@ paste0("12 month low ", FunDec(year.min.d$Diesel, 2), "p (",
 
 # 12 month high petrol
 pump.prices %>% 
+  filter(Date <= (date.calc) %m-% years(1)%m-% days(1)) %>% 
   filter(Petrol == max(Petrol)) -> year.max.p
 
 # 32 12-month petrol high as text
@@ -230,6 +255,7 @@ pump.prices
 
 # 12 month high brent usd
 oil.prices %>% 
+  filter(Date <= (date.calc) %m-% years(1)%m-% days(1)) %>% 
   filter(Brent.USD == max(Brent.USD)) -> year.max.b
 
 # 36 12-month brent high as text
@@ -240,6 +266,7 @@ paste0("12 month high $", FunDec(year.max.b$Brent.USD, 2), "* ",
 
 # 12 month low brent usd
 oil.prices %>% 
+  filter(Date <= (date.calc) %m-% years(1)%m-% days(1)) %>% 
   filter(Brent.USD == min(Brent.USD)) -> year.min.b
 
 # 37 12-month brent high as text
@@ -315,6 +342,7 @@ lm.arrow.pr.b <- ifelse(lm.dif.pr.b > 0, "^",
 
 # price previous year
 oil.prices %>% 
+  filter(Date <= (date.calc) %m-% years(1)%m-% days(1)) %>% 
   filter(row_number() == nrow(.)) %>% 
   pull(Brent.USD) -> last.year.pr.b
 
@@ -371,6 +399,7 @@ lm.arrow.pr.p <- ifelse(lm.dif.pr.p > 0, "^",
 
 # price previous year
 pump.prices %>% 
+  filter(Date <= (date.calc) %m-% years(1)%m-% days(1)) %>% 
   filter(row_number() == nrow(.)) %>% 
   pull(Petrol) -> last.year.pr.p
 
@@ -422,6 +451,7 @@ lm.arrow.pr.d <- ifelse(lm.dif.pr.d > 0, "^",
 
 # price previous year
 pump.prices %>% 
+  filter(Date <= (date.calc) %m-% years(1)%m-% days(1)) %>% 
   filter(row_number() == nrow(.)) %>% 
   pull(Diesel) -> last.year.pr.d
 

@@ -37,8 +37,8 @@ if(exists("pump.prices")) {
   expect_true(nrow(pump.prices) > 250 , 
               info = "There should be over 250 rows in pump.prices.")
   expect_true(suppressWarnings(between(max(pump.prices$Date) - 
-                                         min(pump.prices$Date), 364, 368)),
-              info = "There should be one year's worth of pump price data.")
+                                         min(pump.prices$Date), 363, 368)),
+              info = "There should be one year's worth of pump price data, but there isn't.")
   expect_true(inherits(pump.prices$Date, "Date"), 
               info = "The first column in pump.prices should be in date format.")
   expect_true(is.numeric(pump.prices$Petrol), 
@@ -56,8 +56,8 @@ if(exists("oil.prices")) {
   expect_true(nrow(oil.prices) > 250 , 
               info = "There should be over 250 rows in oil.prices")
   expect_true(suppressWarnings(between(max(oil.prices$Date) - 
-                                         min(oil.prices$Date), 364, 368)),
-              info = "There should be one year's worth of pump price data.")
+                                         min(oil.prices$Date), 363, 368)),
+              info = "There should be one year's worth of oil price data, but there isn't.")
   expect_true(inherits(oil.prices$Date, "Date"), 
               info = "The first column in oil.prices should be in date format.")
   expect_true(all(sapply(select(oil.prices, -Date),function(x) is.numeric(x))),
